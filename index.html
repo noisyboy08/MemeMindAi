@@ -1,0 +1,3305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEME MIND AI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+        :root {
+            --primary: #E85D04;
+            --primary-hover: #FF7A1A;
+            --primary-soft: rgba(232, 93, 4, 0.12);
+            --ink: #141414;
+            --muted: #5c5c5c;
+            --surface: #ffffff;
+            --surface-subtle: #f4f4f6;
+            --surface-elevated: #fafafa;
+            --border: #e4e4e7;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --space-1: 8px;
+            --space-2: 16px;
+            --space-3: 24px;
+            --space-4: 32px;
+            --space-5: 48px;
+            --nav-h: 72px;
+        }
+
+        h1, h2, h3, .faq-question p {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .hero__lead, .inspiration p, .create-memes-content p, .fastest-way-content p {
+            max-width: min(65ch, 720px);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        .use-cases-btn:focus-visible,
+        .nav-btn:focus-visible,
+        .nav-brand:focus-visible,
+        .create-meme-btn:focus-visible,
+        .view-gallery-btn:focus-visible,
+        .get-started-free-btn:focus-visible,
+        .hero__cta-secondary:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .page-transition {
+                display: none !important;
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+        
+        /* Page Transition */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        /* Different transition effects */
+        .slide-up {
+            transform: translate3d(0, 100%, 0);
+            background: linear-gradient(45deg, #FF6B00, #FF8533);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-down {
+            transform: translate3d(0, -100%, 0);
+            background: linear-gradient(45deg, #FF0000, #FF6B6B);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-left {
+            transform: translate3d(100%, 0, 0);
+            background: linear-gradient(45deg, #4A90E2, #7ED321);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-right {
+            transform: translate3d(-100%, 0, 0);
+            background: linear-gradient(45deg, #9013FE, #50E3C2);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade {
+            opacity: 0;
+            background: linear-gradient(45deg, #FF69B4, #FF1493);
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-transition.active.slide-up,
+        .page-transition.active.slide-down {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .page-transition.active.slide-left,
+        .page-transition.active.slide-right {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .page-transition.active.fade {
+            opacity: 1;
+        }
+        
+        body {
+            background-color: var(--surface-subtle);
+            overflow-x: hidden;
+            color: var(--ink);
+        }
+        
+        nav.site-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 14px clamp(16px, 4vw, 36px);
+            min-height: 64px;
+            background-color: rgba(255, 255, 255, 0.92);
+            color: var(--ink);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+            transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        nav.site-nav.is-scrolled {
+            background-color: rgba(255, 255, 255, 0.96);
+            border-bottom-color: var(--border);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Nav sits over hero shader — glass + animated orange rail */
+        .hero > nav.site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            margin: 0;
+            border-bottom: none;
+            background: rgba(255, 255, 255, 0.58);
+            backdrop-filter: blur(22px) saturate(1.35);
+            -webkit-backdrop-filter: blur(22px) saturate(1.35);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset;
+        }
+
+        .hero > nav.site-nav::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                rgba(232, 93, 4, 0.25) 0%,
+                rgba(251, 146, 60, 1) 22%,
+                rgba(255, 200, 120, 0.95) 48%,
+                rgba(234, 88, 12, 1) 72%,
+                rgba(232, 93, 4, 0.25) 100%
+            );
+            background-size: 240% 100%;
+            animation: heroNavOrangeFlow 4.2s linear infinite;
+            box-shadow: 0 0 18px rgba(232, 93, 4, 0.35);
+        }
+
+        .hero > nav.site-nav.is-scrolled {
+            background: rgba(255, 255, 255, 0.88);
+            border-bottom: none;
+            box-shadow: 0 8px 32px rgba(232, 93, 4, 0.08), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+        }
+
+        @keyframes heroNavOrangeFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 12px;
+            margin: -4px;
+            padding: 4px 8px 4px 4px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-brand:hover {
+            background: rgba(232, 93, 4, 0.08);
+        }
+
+        .nav-brand__mark {
+            height: 36px;
+            width: 36px;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(232, 93, 4, 0.35);
+            flex-shrink: 0;
+        }
+
+        .nav-brand__text {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            line-height: 1;
+            text-transform: uppercase;
+            color: #18181b;
+        }
+
+        .nav-brand__suffix {
+            font-weight: 500;
+            color: var(--primary);
+            margin-left: 0.25em;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            position: relative;
+        }
+        
+        .use-cases-dropdown {
+            position: relative;
+        }
+        
+        .use-cases-btn {
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(232, 93, 4, 0.22);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #3f3f46;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .use-cases-btn:hover {
+            background: #fff7ed;
+            border-color: rgba(232, 93, 4, 0.45);
+            color: #9a3412;
+            box-shadow: 0 2px 12px rgba(232, 93, 4, 0.1);
+        }
+
+        .use-cases-btn .nav-chevron {
+            font-size: 0.65rem;
+            color: var(--primary);
+            transition: transform 0.2s ease;
+        }
+
+        .use-cases-dropdown:hover .use-cases-btn .nav-chevron {
+            transform: rotate(-180deg);
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: #ffffff;
+            min-width: 300px;
+            box-shadow:
+                0 4px 6px rgba(24, 24, 27, 0.04),
+                0 20px 50px rgba(232, 93, 4, 0.12),
+                0 0 0 1px rgba(232, 93, 4, 0.12);
+            border-radius: 18px;
+            padding: 10px;
+            z-index: 1000;
+        }
+        
+        .use-cases-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content::before {
+            content: 'Use cases';
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #9a3412;
+            padding: 8px 12px 4px;
+            opacity: 0.85;
+        }
+        
+        .use-case-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 12px;
+            border-radius: 12px;
+            transition: background 0.2s ease;
+        }
+        
+        .use-case-item:hover {
+            background: linear-gradient(90deg, rgba(255, 247, 237, 0.95), rgba(255, 255, 255, 0.5));
+        }
+        
+        .use-case-item i {
+            font-size: 1.25rem;
+            margin-right: 12px;
+            width: 2rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .use-case-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        
+        .use-case-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #18181b;
+            margin-bottom: 2px;
+        }
+        
+        .use-case-description {
+            font-size: 0.8125rem;
+            color: #71717a;
+            line-height: 1.35;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 24px;
+            font-size: 14px;
+        }
+        
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 22px;
+            border-radius: 999px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .nav-btn--ghost {
+            background: #ffffff;
+            color: #3f3f46;
+            border: 1.5px solid rgba(232, 93, 4, 0.35);
+            box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+        }
+
+        .nav-btn--ghost:hover {
+            background: #fff7ed;
+            border-color: var(--primary);
+            color: #9a3412;
+            box-shadow: 0 4px 16px rgba(232, 93, 4, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn--primary {
+            background: linear-gradient(165deg, var(--primary-hover) 0%, var(--primary) 55%, #c2410c 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow:
+                0 4px 16px rgba(232, 93, 4, 0.35),
+                0 1px 0 rgba(255, 255, 255, 0.2) inset;
+        }
+
+        .nav-btn--primary:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 28px rgba(232, 93, 4, 0.45),
+                0 1px 0 rgba(255, 255, 255, 0.25) inset;
+            filter: brightness(1.03);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.5), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+
+        .nav-btn:hover::after {
+            opacity: 0.18;
+        }
+
+        .nav-btn--primary::after {
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.5), transparent 50%);
+        }
+        
+        /* Hero — white + orange (clean Webflow-style) */
+        .hero {
+            position: relative;
+            isolation: isolate;
+            text-align: center;
+            min-height: min(78vh, 720px);
+            padding: 0 var(--space-3) clamp(48px, 10vw, 96px);
+            margin-bottom: 0;
+            overflow: hidden;
+            color: var(--ink);
+            border-bottom: 1px solid rgba(232, 93, 4, 0.12);
+            background: #ffffff;
+        }
+
+        .hero__bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .hero__mesh {
+            position: absolute;
+            inset: -15%;
+            background:
+                radial-gradient(ellipse 90% 70% at 0% 0%, rgba(255, 237, 213, 0.95), transparent 52%),
+                radial-gradient(ellipse 80% 65% at 100% 10%, rgba(254, 215, 170, 0.55), transparent 50%),
+                radial-gradient(ellipse 70% 55% at 85% 95%, rgba(255, 247, 237, 0.9), transparent 48%),
+                radial-gradient(ellipse 55% 45% at 12% 88%, rgba(255, 237, 213, 0.65), transparent 45%),
+                radial-gradient(ellipse 50% 40% at 48% 42%, rgba(232, 93, 4, 0.08), transparent 55%),
+                linear-gradient(180deg, #ffffff 0%, #fffdfb 38%, #fff7ed 100%);
+            animation: heroMeshDriftLight 22s ease-in-out infinite;
+        }
+
+        .hero__bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            background-image: radial-gradient(rgba(232, 93, 4, 0.04) 1px, transparent 1px);
+            background-size: 5px 5px;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Spinning orange “energy” wash */
+        .hero__orbit {
+            position: absolute;
+            left: 50%;
+            top: 42%;
+            width: min(120vw, 900px);
+            height: min(120vw, 900px);
+            margin-left: calc(min(120vw, 900px) / -2);
+            margin-top: calc(min(120vw, 900px) / -2);
+            z-index: 1;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(251, 146, 60, 0.35) 55deg,
+                rgba(234, 88, 12, 0.45) 110deg,
+                transparent 165deg,
+                rgba(255, 180, 100, 0.28) 240deg,
+                rgba(232, 93, 4, 0.38) 300deg,
+                transparent 360deg
+            );
+            filter: blur(56px);
+            opacity: 0.75;
+            mix-blend-mode: multiply;
+            animation: heroOrbitSpin 16s linear infinite;
+        }
+
+        /* Big soft orange blobs */
+        .hero__blob {
+            position: absolute;
+            z-index: 2;
+            border-radius: 50%;
+            filter: blur(52px);
+            opacity: 0.62;
+            mix-blend-mode: multiply;
+            will-change: transform;
+        }
+
+        .hero__blob--a {
+            width: min(52vw, 480px);
+            height: min(52vw, 480px);
+            background: radial-gradient(circle at 35% 35%, rgba(255, 140, 60, 0.95), rgba(232, 93, 4, 0.4) 52%, transparent 72%);
+            left: -8%;
+            top: 8%;
+            animation: heroBlobA 9s ease-in-out infinite;
+        }
+
+        .hero__blob--b {
+            width: min(48vw, 420px);
+            height: min(48vw, 420px);
+            background: radial-gradient(circle at 60% 40%, rgba(255, 200, 120, 0.85), rgba(234, 88, 12, 0.35) 55%, transparent 70%);
+            right: -12%;
+            top: 28%;
+            animation: heroBlobB 11s ease-in-out infinite;
+        }
+
+        .hero__blob--c {
+            width: min(42vw, 380px);
+            height: min(42vw, 380px);
+            background: radial-gradient(circle at 50% 50%, rgba(232, 93, 4, 0.75), rgba(251, 146, 60, 0.25) 50%, transparent 68%);
+            left: 22%;
+            bottom: -18%;
+            animation: heroBlobC 7.5s ease-in-out infinite;
+        }
+
+        /* Light sweep — reads “alive” on white+cream */
+        .hero__shimmer {
+            position: absolute;
+            inset: -60% -100%;
+            z-index: 3;
+            background: linear-gradient(
+                102deg,
+                transparent 38%,
+                rgba(255, 255, 255, 0.55) 49.5%,
+                rgba(255, 237, 213, 0.35) 50.5%,
+                transparent 62%
+            );
+            mix-blend-mode: soft-light;
+            opacity: 0.55;
+            animation: heroShimmerSweep 6.5s ease-in-out infinite;
+        }
+
+        @keyframes heroMeshDriftLight {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            40% { transform: translate(1%, -0.5%) scale(1.015); }
+            70% { transform: translate(-0.8%, 0.8%) scale(1.008); }
+        }
+
+        @keyframes heroOrbitSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes heroBlobA {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(10%, -12%) scale(1.15); }
+        }
+
+        @keyframes heroBlobB {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            45% { transform: translate(-14%, 8%) scale(1.12) rotate(-6deg); }
+            70% { transform: translate(4%, 14%) scale(0.95) rotate(4deg); }
+        }
+
+        @keyframes heroBlobC {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-6%, -18%) scale(1.2); }
+        }
+
+        @keyframes heroShimmerSweep {
+            0% { transform: translateX(-18%) skewX(-12deg); }
+            100% { transform: translateX(22%) skewX(-12deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero__mesh,
+            .hero__orbit,
+            .hero__blob,
+            .hero__shimmer,
+            .hero > nav.site-nav::after {
+                animation: none !important;
+                background-position: 50% 50%;
+                opacity: 0.85;
+            }
+
+            .hero__orbit {
+                opacity: 0.35;
+            }
+
+            .hero__blob {
+                opacity: 0.35;
+            }
+
+            .hero__shimmer {
+                opacity: 0;
+            }
+        }
+
+        .hero__inner {
+            position: relative;
+            z-index: 10;
+            max-width: 46rem;
+            margin: 0 auto;
+            padding-top: clamp(28px, 5vw, 52px);
+        }
+
+        .hero__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #9a3412;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(232, 93, 4, 0.28);
+            border-radius: 999px;
+            padding: 8px 18px;
+            margin-bottom: 1.35rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 1) inset,
+                0 8px 28px rgba(232, 93, 4, 0.08);
+        }
+
+        .hero__eyebrow-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fb923c, var(--primary));
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+        }
+
+        .hero__title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2.65rem, 7.5vw, 4.6rem);
+            font-weight: 800;
+            line-height: 1.06;
+            letter-spacing: -0.02em;
+            margin: 0 0 1.25rem 0;
+            color: #18181b;
+            text-shadow: none;
+        }
+
+        .hero__title-accent {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+            font-weight: 400;
+            color: #c2410c;
+            letter-spacing: 0;
+        }
+
+        .hero__title-line {
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .hero__title-sub {
+            display: block;
+            margin-top: 0.35rem;
+            font-size: clamp(1.15rem, 3.8vw, 1.85rem);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: none;
+            color: #3f3f46;
+        }
+
+        .hero__lead {
+            font-size: clamp(1.02rem, 2.1vw, 1.22rem);
+            line-height: 1.65;
+            color: var(--muted);
+            margin: 0 auto 1.75rem;
+            font-weight: 400;
+        }
+
+        .hero__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero__cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            padding: 0 28px;
+            border-radius: 999px;
+            border: 1.5px solid rgba(232, 93, 4, 0.45);
+            color: #c2410c;
+            background: #ffffff;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+            box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+        }
+
+        .hero__cta-secondary:hover {
+            background: rgba(255, 247, 237, 0.95);
+            border-color: var(--primary);
+            color: #9a3412;
+            box-shadow: 0 6px 20px rgba(232, 93, 4, 0.12);
+            transform: translateY(-1px);
+        }
+        
+        .create-meme-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px 48px;
+            border-radius: 40px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            font-size: 28px;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .create-meme-btn.hero__cta-primary {
+            font-size: clamp(1rem, 2.4vw, 1.35rem);
+            padding: 18px 40px;
+            min-height: 52px;
+            box-shadow:
+                0 4px 20px rgba(232, 93, 4, 0.35),
+                0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .create-meme-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 0, 0.4);
+            background-color: var(--primary-hover);
+        }
+        
+        .create-meme-btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        
+        /* Add ripple effect */
+        .create-meme-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease-out, height 0.6s ease-out;
+        }
+        
+        .create-meme-btn:active::after {
+            width: 300px;
+            height: 300px;
+            opacity: 0;
+        }
+        
+        /* Editor Preview */
+        .editor-preview {
+            max-width: 800px;
+            margin: 48px auto 40px;
+        }
+        
+        .editor-preview img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .partners {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin: 32px 0;
+            opacity: 0.6;
+        }
+        
+        .partners span {
+            font-size: 12px;
+            color: #999;
+            margin-right: 12px;
+        }
+        
+        /* Inspiration Section */
+        .inspiration {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #f8f9fa;
+            margin: 40px 0;
+        }
+        
+        .inspiration h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+            color: #333;
+        }
+        
+        .inspiration p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 32px;
+        }
+        
+        .view-gallery-btn {
+            background-color: transparent;
+            color: #333;
+            border: 2px solid #333;
+            padding: 12px 24px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .view-gallery-btn:hover {
+            background-color: #333;
+            color: white;
+        }
+        
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 16px;
+            max-width: 1000px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+        
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-item.wide {
+            grid-column: span 3;
+        }
+        
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            background: linear-gradient(180deg, var(--surface-subtle) 0%, var(--surface) 100%);
+            padding: var(--space-5) var(--space-3);
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .how-it-works h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-3);
+            color: var(--ink);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            background-color: white;
+            border-radius: 8px;
+            padding: 24px;
+            flex: 1;
+            text-align: left;
+        }
+        
+        .step .number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .step h3 {
+            margin-bottom: 12px;
+        }
+        
+        .step p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .step img {
+            width: 100%;
+            border-radius: 4px;
+            margin-top: 16px;
+        }
+        
+        /* Create Memes Section */
+        .create-memes {
+            display: flex;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            align-items: center;
+        }
+        
+        .create-memes img {
+            width: 40%;
+            border-radius: 8px;
+        }
+        
+        .create-memes-content {
+            padding: 0 40px;
+        }
+        
+        .create-memes-content h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        
+        .create-memes-content p {
+            color: #666;
+            margin-bottom: 16px;
+        }
+        
+        /* Fastest Way Section */
+        .fastest-way {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .fastest-way-content {
+            flex: 1;
+        }
+        
+        .fastest-way-image {
+            flex: 1;
+        }
+        
+        .fastest-way-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* AI Tools — bright yellow studio + high-contrast cards */
+        .ai-tools-section {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            padding: clamp(56px, 9vw, 104px) clamp(18px, 4vw, 40px) clamp(64px, 10vw, 112px);
+            background-color: #fde047;
+            background-image:
+                radial-gradient(ellipse 90% 70% at 0% 0%, rgba(255, 255, 255, 0.65), transparent 50%),
+                radial-gradient(ellipse 70% 60% at 100% 30%, rgba(251, 191, 36, 0.55), transparent 45%),
+                radial-gradient(ellipse 55% 50% at 50% 100%, rgba(234, 179, 8, 0.35), transparent 50%),
+                linear-gradient(165deg, #fef9c3 0%, #fde047 38%, #facc15 72%, #eab308 100%);
+            border-top: 1px solid rgba(234, 179, 8, 0.45);
+            border-bottom: 1px solid rgba(202, 138, 4, 0.25);
+        }
+
+        .ai-tools-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(180deg, black 0%, transparent 88%);
+            pointer-events: none;
+        }
+
+        .ai-tools-section__inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .ai-tools-head {
+            max-width: 52rem;
+            margin-bottom: clamp(32px, 5vw, 48px);
+        }
+
+        .ai-tools-eyebrow {
+            display: inline-block;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(66, 32, 6, 0.72);
+            margin-bottom: 14px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(120, 53, 15, 0.2);
+            background: rgba(255, 255, 255, 0.55);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+        }
+
+        .ai-tools-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2.35rem, 5.5vw, 3.75rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0 0 16px 0;
+            max-width: 18ch;
+            padding: 0.28em 0.42em 0.32em;
+            border-radius: 18px;
+            color: #0f172a;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 251, 235, 0.88) 100%);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.95) inset,
+                0 12px 40px rgba(120, 53, 15, 0.12);
+        }
+
+        .ai-tools-lead {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            line-height: 1.65;
+            color: rgba(30, 27, 23, 0.78);
+            margin: 0;
+            max-width: 38rem;
+        }
+
+        .ai-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .ai-tool-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            padding: 22px 20px 20px;
+            min-height: 178px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 1) inset,
+                0 14px 36px rgba(120, 53, 15, 0.1);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .ai-tool-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), transparent 42%, var(--accent-color));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.75;
+        }
+
+        .ai-tool-card::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: -30%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .ai-tool-card:nth-child(1) { --accent-color: #2563eb; --accent-glow: rgba(37, 99, 235, 0.22); }
+        .ai-tool-card:nth-child(2) { --accent-color: #ea580c; --accent-glow: rgba(234, 88, 12, 0.2); }
+        .ai-tool-card:nth-child(3) { --accent-color: #16a34a; --accent-glow: rgba(22, 163, 73, 0.2); }
+        .ai-tool-card:nth-child(4) { --accent-color: #e11d48; --accent-glow: rgba(225, 29, 72, 0.18); }
+        .ai-tool-card:nth-child(5) { --accent-color: #9333ea; --accent-glow: rgba(147, 51, 234, 0.2); }
+        .ai-tool-card:nth-child(6) { --accent-color: #0d9488; --accent-glow: rgba(13, 148, 136, 0.2); }
+        .ai-tool-card:nth-child(7) { --accent-color: #ca8a04; --accent-glow: rgba(202, 138, 4, 0.22); }
+        .ai-tool-card:nth-child(8) { --accent-color: #475569; --accent-glow: rgba(71, 85, 105, 0.18); }
+
+        .ai-tool-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 1) inset,
+                0 22px 48px rgba(120, 53, 15, 0.14),
+                0 0 36px var(--accent-glow);
+        }
+
+        .ai-tool-card:hover::after {
+            opacity: 0.55;
+        }
+
+        .ai-tool-card__icon {
+            position: relative;
+            z-index: 2;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #ffffff, #fffbeb);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            box-shadow:
+                0 6px 20px var(--accent-glow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        }
+
+        .ai-tool-card__icon svg {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.12));
+        }
+
+        .ai-tool-card__body {
+            position: relative;
+            z-index: 2;
+        }
+
+        .ai-tool-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0 0 6px 0;
+            line-height: 1.2;
+            letter-spacing: 0.03em;
+        }
+
+        .ai-tool-desc {
+            font-size: 0.8125rem;
+            line-height: 1.45;
+            color: rgba(30, 41, 59, 0.68);
+            margin: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .ai-tools-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ai-tools-section {
+                padding: 44px 16px 56px;
+            }
+
+            .ai-tools-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .ai-tool-card {
+                min-height: 0;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 18px;
+                padding: 20px 20px;
+            }
+
+            .ai-tool-card__icon {
+                margin-bottom: 0;
+            }
+
+            .ai-tool-card__body {
+                flex: 1;
+            }
+        }
+
+        /* Similar use cases — warm mesh + bento glass */
+        .similar-use-cases {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            padding: clamp(56px, 9vw, 104px) clamp(18px, 4vw, 40px);
+            text-align: center;
+            background:
+                radial-gradient(ellipse 90% 70% at 0% 40%, rgba(253, 186, 116, 0.45), transparent 55%),
+                radial-gradient(ellipse 80% 60% at 100% 10%, rgba(147, 197, 253, 0.5), transparent 50%),
+                radial-gradient(ellipse 70% 50% at 50% 100%, rgba(244, 114, 182, 0.22), transparent 50%),
+                linear-gradient(165deg, #fffefb 0%, #f4f4f7 50%, #eef0ff 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.65);
+        }
+
+        .similar-use-cases::before {
+            display: block;
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            mix-blend-mode: multiply;
+        }
+
+        .similar-use-cases__inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .similar-use-cases__eyebrow {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(15, 23, 42, 0.45);
+            margin-bottom: 12px;
+        }
+
+        .similar-use-cases h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2rem, 4.5vw, 3.25rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 1.12;
+            margin: 0 auto 20px;
+            max-width: 22ch;
+            padding: 0.48em 0.7em 0.52em;
+            border-radius: 22px;
+            display: inline-block;
+            color: #0f172a;
+            background: linear-gradient(165deg, #fff566 0%, #fde047 42%, #facc15 100%);
+            border: 1px solid rgba(202, 138, 4, 0.4);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.75) inset,
+                0 14px 40px rgba(234, 179, 8, 0.32);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .similar-use-cases h2 {
+                box-shadow:
+                    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+                    0 10px 28px rgba(234, 179, 8, 0.22);
+            }
+        }
+
+        .similar-use-cases__lead {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            color: rgba(15, 23, 42, 0.55);
+            line-height: 1.6;
+            margin: 0 auto clamp(36px, 5vw, 52px);
+            max-width: 38rem;
+        }
+
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .use-case {
+            position: relative;
+            text-align: left;
+            border-radius: 24px;
+            padding: 26px 22px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: rgba(255, 255, 255, 0.58);
+            backdrop-filter: blur(26px);
+            -webkit-backdrop-filter: blur(26px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.95) inset,
+                0 18px 40px rgba(15, 23, 42, 0.08);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .use-case::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 24px;
+            right: 24px;
+            height: 3px;
+            border-radius: 0 0 6px 6px;
+            background: linear-gradient(90deg, var(--uc-a), var(--uc-b));
+            opacity: 0.9;
+        }
+
+        .use-case:nth-child(1) { --uc-a: #3b82f6; --uc-b: #60a5fa; }
+        .use-case:nth-child(2) { --uc-a: #a855f7; --uc-b: #e879f9; }
+        .use-case:nth-child(3) { --uc-a: #ea580c; --uc-b: #fb923c; }
+        .use-case:nth-child(4) { --uc-a: #059669; --uc-b: #34d399; }
+
+        .use-case:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 1) inset,
+                0 28px 56px rgba(15, 23, 42, 0.12);
+        }
+
+        .use-case__icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.35));
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow:
+                0 8px 24px rgba(15, 23, 42, 0.08),
+                0 0 0 1px rgba(15, 23, 42, 0.04);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .use-case:hover .use-case__icon {
+            transform: scale(1.06) rotate(-2deg);
+            box-shadow:
+                0 12px 32px rgba(15, 23, 42, 0.12),
+                0 0 0 1px rgba(15, 23, 42, 0.06);
+        }
+
+        .use-case__icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .use-case__label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #0f172a;
+            margin: 0 0 8px 0;
+        }
+
+        .use-case__desc {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: rgba(15, 23, 42, 0.52);
+            margin: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .use-cases {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .use-cases {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .use-case {
+                flex-direction: row;
+                align-items: center;
+                padding: 20px 22px;
+                gap: 18px;
+            }
+
+            .use-case::before {
+                left: 0;
+                right: auto;
+                top: 16px;
+                bottom: 16px;
+                width: 4px;
+                height: auto;
+                border-radius: 0 6px 6px 0;
+            }
+
+            .use-case__icon {
+                margin-bottom: 0;
+            }
+
+            .use-case__copy {
+                flex: 1;
+                text-align: left;
+            }
+
+            .use-case__label {
+                margin-bottom: 4px;
+            }
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
+            padding: var(--space-5) var(--space-3);
+            text-align: center;
+        }
+        
+        .faq h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #fff;
+            margin-bottom: var(--space-3);
+        }
+        
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background-color: white;
+            border-radius: 24px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .faq-toggle {
+            color: #999;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 0;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 16px;
+        }
+        
+        /* Image Grid Showcase */
+        .image-grid {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .image-grid-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .image-grid-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 1024px) {
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Showcase */
+        .image-showcase {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .showcase-image {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .showcase-image:hover {
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .image-showcase {
+                padding: 0 16px;
+            }
+        }
+
+        /* Features Section */
+        .features-section {
+            max-width: 2000px;
+            margin: 0 auto;
+            padding: var(--space-5) var(--space-4);
+            background: #141416;
+            border-top: 1px solid #2a2a2e;
+        }
+
+        .features-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffb38a;
+            margin-bottom: 16px;
+        }
+
+        .feature-description {
+            font-size: 18px;
+            line-height: 1.65;
+            color: #d4d4d8;
+            max-width: none;
+        }
+
+        @media (max-width: 1200px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-title {
+                font-size: 48px;
+                margin-bottom: 40px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-title {
+                font-size: 28px;
+            }
+
+            .feature-description {
+                font-size: 16px;
+            }
+        }
+        
+        /* Get Started Section */
+        .get-started {
+            background-color: #0a0e17;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 16px;
+            max-width: 1000px;
+            margin: 60px auto;
+        }
+        
+        .get-started h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        
+        .get-started p {
+            color: #ccc;
+            margin-bottom: 24px;
+        }
+        
+        .get-started-free-btn {
+            background-color: #ff6b00;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #0a0e17;
+            color: white;
+            padding: 40px 20px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 24px;
+        }
+        
+        .footer-column h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item.wide {
+                grid-column: span 1;
+            }
+            
+            .steps {
+                flex-direction: column;
+            }
+            
+            .create-memes {
+                flex-direction: column;
+            }
+            
+            .create-memes img {
+                width: 100%;
+                margin-bottom: 24px;
+            }
+            
+            .create-memes-content {
+                padding: 0;
+            }
+            
+            .use-cases {
+                flex-wrap: wrap;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .fastest-way {
+                flex-direction: column;
+            }
+            
+            .fastest-way-image {
+                width: 100%;
+            }
+            
+            .hero__title {
+                font-size: clamp(2.25rem, 10vw, 3rem);
+                margin-bottom: 20px;
+            }
+
+            .hero__lead {
+                font-size: 1.05rem;
+                margin-bottom: 28px;
+            }
+            
+            .nav-btn {
+                padding: 0 16px;
+                min-height: 42px;
+                font-size: 0.75rem;
+            }
+
+            .nav-brand__text {
+                font-size: 0.95rem;
+            }
+
+            .nav-brand__mark {
+                height: 32px;
+                width: 32px;
+            }
+
+            nav.site-nav {
+                padding: 12px 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Meme generator modal */
+        .meme-gen-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-3);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .meme-gen-modal.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .meme-gen-modal__backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .meme-gen-modal__dialog {
+            position: relative;
+            width: min(920px, 100%);
+            max-height: 92vh;
+            overflow: auto;
+            background: linear-gradient(165deg, #2d2b29 0%, #1a1918 100%);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1;
+        }
+
+        .meme-gen-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 3;
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .meme-gen-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .meme-gen-modal__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            padding-top: 52px;
+        }
+
+        .meme-input-panel h2 {
+            color: #fff;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: var(--space-2);
+        }
+
+        .meme-input-panel .meme-lead {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: var(--space-3);
+            font-size: 0.95rem;
+            line-height: 1.55;
+            max-width: none;
+        }
+
+        .input-label {
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+            display: block;
+        }
+
+        .meme-textarea {
+            width: 100%;
+            min-height: 140px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            padding: var(--space-2);
+            color: #fff;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: var(--space-2);
+        }
+
+        .meme-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .generate-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            width: 100%;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .meme-gen-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .generate-btn--demo {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, 0.38);
+        }
+
+        .generate-btn--demo:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+        }
+
+        .meme-preview-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: var(--space-2);
+        }
+
+        .preview-placeholder {
+            width: 100%;
+            min-height: 220px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.65);
+            padding: var(--space-2);
+        }
+
+        .preview-placeholder img {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 12px;
+            opacity: 0.65;
+        }
+
+        #generatedMemeImg {
+            max-width: 100%;
+            max-height: min(52vh, 440px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            cursor: zoom-in;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .meme-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: memeSpin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes memeSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .preview-status {
+            min-height: 1.25rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .meme-caption-notice {
+            font-size: 0.8125rem;
+            line-height: 1.45;
+            color: #fef9c3;
+            background: rgba(234, 179, 8, 0.22);
+            border: 1px solid rgba(250, 204, 21, 0.45);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-top: 12px;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .meme-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            justify-content: center;
+        }
+
+        .meme-actions .meme-action-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .meme-actions .meme-action-btn--ghost {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .meme-actions .meme-action-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .result-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.92);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            padding: var(--space-3);
+        }
+
+        .result-lightbox.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .result-lightbox img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+        }
+
+        .result-lightbox__close {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 3001;
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .meme-gen-modal__grid {
+                grid-template-columns: 1fr;
+                padding: var(--space-3);
+                padding-top: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section (nav sits over animated background) -->
+    <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero__bg" aria-hidden="true">
+            <div class="hero__mesh"></div>
+            <div class="hero__orbit"></div>
+            <div class="hero__blob hero__blob--a"></div>
+            <div class="hero__blob hero__blob--b"></div>
+            <div class="hero__blob hero__blob--c"></div>
+            <div class="hero__shimmer"></div>
+        </div>
+        <nav class="site-nav" aria-label="Main">
+            <a href="/" class="nav-brand">
+                <img class="nav-brand__mark" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='7' fill='%23E85D04'/%3E%3Ctext x='12' y='16.5' text-anchor='middle' fill='white' font-size='11' font-weight='700' font-family='system-ui,sans-serif'%3EM%3C/text%3E%3C/svg%3E" alt="" width="36" height="36">
+                <span class="nav-brand__text">MEME MIND <span class="nav-brand__suffix">AI</span></span>
+            </a>
+            <div class="nav-right">
+                <div class="use-cases-dropdown">
+                    <button type="button" class="use-cases-btn" aria-expanded="false" aria-haspopup="true">
+                        Explore use cases
+                        <span class="nav-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <div class="use-case-item">
+                            <i>📱</i>
+                            <div class="use-case-text">
+                                <div class="use-case-title">Social Media Images</div>
+                                <div class="use-case-description">Use AI to create posts</div>
+                            </div>
+                        </div>
+                        <div class="use-case-item">
+                            <i>📢</i>
+                            <div class="use-case-text">
+                                <div class="use-case-title">Ads</div>
+                                <div class="use-case-description">Improve your ads with MEME MIND AI</div>
+                            </div>
+                        </div>
+                        <div class="use-case-item">
+                            <i>👤</i>
+                            <div class="use-case-text">
+                                <div class="use-case-title">AI Headshots</div>
+                                <div class="use-case-description">Create professional AI headshots</div>
+                            </div>
+                        </div>
+                        <div class="use-case-item">
+                            <i>🎨</i>
+                            <div class="use-case-text">
+                                <div class="use-case-title">Art</div>
+                                <div class="use-case-description">Eye-Catching Art in Seconds</div>
+                            </div>
+                        </div>
+                        <div class="use-case-item">
+                            <i>💬</i>
+                            <div class="use-case-text">
+                                <div class="use-case-title">Discord AI Images</div>
+                                <div class="use-case-description">AI art directly within Discord</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/login" class="nav-btn nav-btn--ghost">Log in</a>
+                <button type="button" class="nav-btn nav-btn--primary" id="navGetStartedBtn">Start free</button>
+            </div>
+        </nav>
+        <div class="hero__inner">
+            <p class="hero__eyebrow"><span class="hero__eyebrow-dot" aria-hidden="true"></span> AI captions + instant meme image</p>
+            <h1 id="hero-heading" class="hero__title">
+                <span class="hero__title-line">MEME MIND AI</span>
+                <span class="hero__title-sub"><span class="hero__title-accent">Viral</span> memes, zero friction</span>
+            </h1>
+            <p class="hero__lead">Create, edit, and share memes in seconds. Our AI-powered platform makes it easy to generate memes for any occasion. No design skills required — just describe your idea, and we handle the rest.</p>
+            <div class="hero__actions">
+                <button type="button" class="create-meme-btn hero__cta-primary">Create a meme</button>
+                <a class="hero__cta-secondary" href="/gallery">View gallery</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editor Preview -->
+    <div class="editor-preview">
+        <img src="image/Image 2025-05-01 at 12.23.41_3bc5f715.jpg" alt="Meme Editor Interface showing Mona Lisa with 'Trying to Smile' sign">
+        <div class="partners">
+            <span>Popular with users from:</span>
+            <div>NETFLIX</div>
+            <div>ADOBE</div>
+            <div>AMAZON</div>
+            <div>SPOTIFY</div>
+        </div>
+    </div>
+
+    <!-- Inspiration Section -->
+    <section class="inspiration">
+        <h2>AI MEME GENERATOR INSPIRATION</h2>
+        <p>Looking for meme ideas? Spark your creativity with one of our AI-generated memes from the thriving community. Explore our community gallery to see how thousands are making jaw-dropping memes with our AI meme generator.</p>
+        <button type="button" class="view-gallery-btn">View AI gallery</button>
+    </section>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-grid">
+        <div class="gallery-item wide tall">
+            <img src="image/Image 2025-05-01 at 12.23.40_82f65eac.jpg" alt="Man with mathematical equations meme">
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <h2>HOW AI MEME GENERATOR WORKS</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="number">1</div>
+                <h3>Select or create a style</h3>
+                <p>Choose from templates or create your own custom style</p>
+                <img src="image/Image 2025-05-01 at 12.23.38_d0465e94.jpg" alt="Cat in dumpster luxury bed meme template">
+            </div>
+            <div class="step">
+                <div class="number">2</div>
+                <h3>Add your prompt</h3>
+                <p>Tell the AI what kind of meme you want to create</p>
+                <img src="image/Image 2025-05-01 at 12.23.37_a68f02e4.jpg" alt="Kermit and Joe Rogan podcast meme">
+            </div>
+            <div class="step">
+                <div class="number">3</div>
+                <h3>Generate and edit</h3>
+                <p>Customize your result or generate new variations</p>
+                <img src="image/Image 2025-05-01 at 12.23.37_1362beb6.jpg" alt="When you realize it's Monday again grumpy cat meme">
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Memes Section -->
+    <section class="create-memes">
+        <img src="image/Image 2025-05-01 at 12.23.38_b0c61b27.jpg" alt="Skeleton and businessman having coffee meme">
+        <div class="create-memes-content">
+            <h2>CREATE MEMES THAT MAKE ANYONE LAUGH</h2>
+            <p>The most powerful AI meme generator for creating hilarious and engaging memes. Our proprietary technology analyzes thousands of viral memes to perfectly capture what makes content shareable and funny.</p>
+            <p>Our AI engine handles formats from classic to cutting-edge. Your memes will stand out, drive engagement, and spread rapidly on social media. Finally, you've found the meme generator designed for real sharing and real results.</p>
+        </div>
+    </section>
+
+    <!-- Fastest Way Section -->
+    <section class="fastest-way">
+        <div class="fastest-way-content">
+        <h2>THE FASTEST WAY TO GENERATE CUSTOM MEMES</h2>
+        <p>While generators on the web typically require cumbersome image uploads and only let you add text, our AI-powered system creates custom memes from scratch based on your description. Generate unlimited variations with just one click and easily modify your creations with our intuitive editing tools.</p>
+        </div>
+        <div class="fastest-way-image">
+            <img src="image/2025-05-01 131435.png" alt="Kermit waving meme">
+        </div>
+    </section>
+
+    <!-- AI Tools Section -->
+    <section class="ai-tools-section" aria-labelledby="ai-tools-heading">
+        <div class="ai-tools-section__inner">
+            <header class="ai-tools-head">
+                <span class="ai-tools-eyebrow">Studio suite</span>
+                <h2 class="ai-tools-title" id="ai-tools-heading">AI editing tools</h2>
+                <p class="ai-tools-lead">Polish frames, strip backgrounds, upscale detail, and export crisp assets — tuned for meme workflows and social crops.</p>
+            </header>
+            <div class="ai-tools-grid">
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig0" x1="4" y1="4" x2="20" y2="20"><stop stop-color="#93c5fd"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs><path stroke="url(#aig0)" stroke-width="1.65" d="M12 20h9"/><path stroke="url(#aig0)" stroke-width="1.65" d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">AI Eraser</h3>
+                        <p class="ai-tool-desc">Remove distractions without redrawing the whole frame.</p>
+                    </div>
+                </div>
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig1" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#fdba74"/><stop offset="1" stop-color="#ea580c"/></linearGradient></defs><path stroke="url(#aig1)" stroke-width="1.65" d="M12 3L3 8v6a9 9 0 009 9 9 9 0 009-9V8l-9-5z"/><path stroke="url(#aig1)" stroke-width="1.65" d="M3 8l9 5 9-5"/><path stroke="url(#aig1)" stroke-width="1.65" d="M12 13v8"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">Background Remover</h3>
+                        <p class="ai-tool-desc">Cut subjects cleanly for overlays and new scenes.</p>
+                    </div>
+                </div>
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig2" x1="6" y1="2" x2="18" y2="22"><stop stop-color="#86efac"/><stop offset="1" stop-color="#16a34a"/></linearGradient></defs><rect x="6" y="2" width="12" height="20" rx="2" stroke="url(#aig2)" stroke-width="1.65"/><path stroke="url(#aig2)" stroke-width="1.65" d="M12 18h.01"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">Mockup Generator</h3>
+                        <p class="ai-tool-desc">Drop memes into device frames for launch posts.</p>
+                    </div>
+                </div>
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig3" x1="3" y1="3" x2="21" y2="21"><stop stop-color="#fda4af"/><stop offset="1" stop-color="#e11d48"/></linearGradient></defs><rect x="3" y="3" width="7" height="7" rx="1" stroke="url(#aig3)" stroke-width="1.65"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="url(#aig3)" stroke-width="1.65"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="url(#aig3)" stroke-width="1.65"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="url(#aig3)" stroke-width="1.65"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">Collaging</h3>
+                        <p class="ai-tool-desc">Combine panels for reaction grids and carousels.</p>
+                    </div>
+                </div>
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig4" x1="4" y1="4" x2="20" y2="20"><stop stop-color="#e9d5ff"/><stop offset="1" stop-color="#9333ea"/></linearGradient></defs><path stroke="url(#aig4)" stroke-width="1.65" d="M12 3c-4 4-6 7-6 10a6 6 0 1012 0c0-3-2-6-6-10z"/><path stroke="url(#aig4)" stroke-width="1.65" d="M12 13v5"/><circle cx="12" cy="10" r="1.5" fill="url(#aig4)"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">Recolor vector images</h3>
+                        <p class="ai-tool-desc">Shift palettes while keeping vectors sharp.</p>
+                    </div>
+                </div>
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig5" x1="6" y1="20" x2="18" y2="4"><stop stop-color="#5eead4"/><stop offset="1" stop-color="#0d9488"/></linearGradient></defs><polyline points="7 14 12 9 17 14" stroke="url(#aig5)" stroke-width="1.65"/><polyline points="7 8 12 3 17 8" stroke="url(#aig5)" stroke-width="1.65"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">Image Upscaler</h3>
+                        <p class="ai-tool-desc">Sharpen exports before they hit the timeline.</p>
+                    </div>
+                </div>
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig6" x1="2" y1="12" x2="22" y2="12"><stop stop-color="#fde047"/><stop offset="1" stop-color="#ca8a04"/></linearGradient></defs><path stroke="url(#aig6)" stroke-width="1.65" d="M3 17c3-2 6-2 9 0s6 2 9 0"/><path stroke="url(#aig6)" stroke-width="1.65" d="M3 7c3 2 6 2 9 0s6-2 9 0"/><circle cx="6" cy="7" r="1.5" fill="url(#aig6)"/><circle cx="18" cy="17" r="1.5" fill="url(#aig6)"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">Image Vectorizer</h3>
+                        <p class="ai-tool-desc">Turn bitmap jokes into scalable paths.</p>
+                    </div>
+                </div>
+                <div class="ai-tool-card">
+                    <div class="ai-tool-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="aig7" x1="2" y1="12" x2="22" y2="12"><stop stop-color="#f1f5f9"/><stop offset="1" stop-color="#64748b"/></linearGradient></defs><polyline points="16 18 22 12 16 6" stroke="url(#aig7)" stroke-width="1.65"/><polyline points="8 6 2 12 8 18" stroke="url(#aig7)" stroke-width="1.65"/></svg>
+                    </div>
+                    <div class="ai-tool-card__body">
+                        <h3 class="ai-tool-title">SVG export</h3>
+                        <p class="ai-tool-desc">Ship assets that stay crisp at any size.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Similar Use Cases -->
+    <section class="similar-use-cases" aria-labelledby="use-cases-heading">
+        <div class="similar-use-cases__inner">
+            <p class="similar-use-cases__eyebrow">Where it shines</p>
+            <h2 id="use-cases-heading">Explore similar use cases</h2>
+            <p class="similar-use-cases__lead">From feeds to decks to Discord servers — the same meme engine, dressed for the channel you care about.</p>
+            <div class="use-cases">
+                <div class="use-case">
+                    <div class="use-case__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="ucg0" x1="2" y1="4" x2="22" y2="20"><stop stop-color="#60a5fa"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs><path stroke="url(#ucg0)" stroke-width="1.65" d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4" stroke="url(#ucg0)" stroke-width="1.65"/></svg>
+                    </div>
+                    <div class="use-case__copy">
+                        <h3 class="use-case__label">Social Media</h3>
+                        <p class="use-case__desc">Hooks, crops, and safe zones for every feed.</p>
+                    </div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="ucg1" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#d8b4fe"/><stop offset="1" stop-color="#7e22ce"/></linearGradient></defs><path stroke="url(#ucg1)" stroke-width="1.65" d="M12 19l7-7 3 3-7 7-3-3z"/><path stroke="url(#ucg1)" stroke-width="1.65" d="M18 13l-6-6 2-2 6 6-2 2z"/><path stroke="url(#ucg1)" stroke-width="1.65" d="M2 22l4-1 1-4"/></svg>
+                    </div>
+                    <div class="use-case__copy">
+                        <h3 class="use-case__label">Art</h3>
+                        <p class="use-case__desc">Expressive styles for posters and drops.</p>
+                    </div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="ucg2" x1="4" y1="2" x2="20" y2="22"><stop stop-color="#fdba74"/><stop offset="1" stop-color="#c2410c"/></linearGradient></defs><path stroke="url(#ucg2)" stroke-width="1.65" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path stroke="url(#ucg2)" stroke-width="1.65" d="M14 2v6h6"/><path stroke="url(#ucg2)" stroke-width="1.65" d="M16 13H8M16 17H8M10 9H8"/></svg>
+                    </div>
+                    <div class="use-case__copy">
+                        <h3 class="use-case__label">Presentations</h3>
+                        <p class="use-case__desc">Big-type moments that read from the back row.</p>
+                    </div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="ucg3" x1="2" y1="6" x2="22" y2="18"><stop stop-color="#6ee7b7"/><stop offset="1" stop-color="#047857"/></linearGradient></defs><rect x="2" y="6" width="20" height="12" rx="4" stroke="url(#ucg3)" stroke-width="1.65"/><path stroke="url(#ucg3)" stroke-width="1.65" d="M6 11h4M8 9v4M16 10h.01M18 12h.01"/></svg>
+                    </div>
+                    <div class="use-case__copy">
+                        <h3 class="use-case__label">Discord &amp; Images</h3>
+                        <p class="use-case__desc">Fast reactions for servers and live chats.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="features-title">WHY MEME MIND AI?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3 class="feature-title">Quality template database</h3>
+                <p class="feature-description">High quality images. No watermarks. Upscaled quality. No offensive or NSFW meme templates</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">True meme generator</h3>
+                <p class="feature-description">Actually generate memes using AI, not make memes using an image editor</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">Social Media Friendly Export</h3>
+                <p class="feature-description">Export memes in 1:1 or 4:3 ratio based on target social media app</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">Custom Watermark</h3>
+                <p class="feature-description">Easily brand your memes without using another image editor</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">Meme APIs</h3>
+                <p class="feature-description">Build your own meme bot or application with just text input and our meme API</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">Multilingual search</h3>
+                <p class="feature-description">Search templates by describing emotions or actions in 110+ languages</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Showcase After FAQ -->
+    <div class="image-showcase">
+        <h2 class="features-title" style="margin-bottom: 40px;">A BETTER MEME WORKFLOW</h2>
+        <img src="image/Image 2025-05-01 at 14.14.30_177e5153.jpg" alt="AI Generated Meme Showcase" class="showcase-image">
+    </div>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <h2>AI MEME GENERATOR FAQ</h2>
+        <div class="faq-list">
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                <p>What is a social AI meme generator?</p>
+                    <span class="faq-toggle">+</span>
+            </div>
+                <div class="faq-answer">
+                    <p>A social AI meme generator is an advanced tool that uses artificial intelligence to create, customize, and share memes. It understands trending formats, humor patterns, and social context to help you create relevant and engaging memes that resonate with your audience.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                <p>How do I generate memes?</p>
+                    <span class="faq-toggle">+</span>
+            </div>
+                <div class="faq-answer">
+                    <p>Simply input your idea or description, choose a style or template, and let our AI do the work! You can either start with a blank canvas or select from our trending templates. Our AI will generate multiple options for you to choose from and customize further.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                <p>Can I customize AI-generated memes?</p>
+                    <span class="faq-toggle">+</span>
+            </div>
+                <div class="faq-answer">
+                    <p>Yes! After generating a meme, you can customize every aspect including text, layout, colors, and effects. Our intuitive editor allows you to fine-tune your meme until it's exactly how you want it, while maintaining the original humor and impact.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                <p>Can I upload my own images to create memes?</p>
+                    <span class="faq-toggle">+</span>
+            </div>
+                <div class="faq-answer">
+                    <p>Absolutely! You can upload your own images to create custom memes. Our AI will help enhance your images and suggest creative ways to transform them into memorable memes while respecting copyright and privacy guidelines.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                <p>What is the cost for AI meme generator content?</p>
+                    <span class="faq-toggle">+</span>
+            </div>
+                <div class="faq-answer">
+                    <p>We offer a free tier that lets you create basic memes. For advanced features, unlimited generations, and premium templates, we have affordable subscription plans starting at $9.99/month. Enterprise solutions are also available for teams and businesses.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">
+                <p>Can I sell my meme generating ideas?</p>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! You own the rights to the memes you create. You can sell them, use them commercially, or share them however you like. We also have a marketplace where you can monetize your best meme templates and ideas with our community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section -->
+    <section class="get-started">
+        <h2>GET STARTED FOR FREE</h2>
+        <p>Join thousands of creators and businesses making magic with MEME MIND AI</p>
+        <button type="button" class="get-started-free-btn">Get Started Free</button>
+    </section>
+
+    <div id="memeGenModal" class="meme-gen-modal" role="dialog" aria-modal="true" aria-labelledby="memeGenTitle" aria-hidden="true">
+        <div class="meme-gen-modal__backdrop" data-meme-close tabindex="-1"></div>
+        <div class="meme-gen-modal__dialog" role="document" tabindex="-1">
+            <button type="button" class="meme-gen-close" data-meme-close aria-label="Close meme generator">&times;</button>
+            <div class="meme-gen-modal__grid">
+                <div class="meme-input-panel">
+                    <h2 id="memeGenTitle">Meme generator</h2>
+                    <p class="meme-lead">Describe your idea. We use AI for the caption and compose a quick meme image you can download. <strong style="font-weight:600;color:#fff;">Try offline demo</strong> works without the server — useful for showcases.</p>
+                    <label class="input-label" for="memeInput">Your meme concept</label>
+                    <textarea class="meme-textarea" id="memeInput" placeholder="e.g. A developer staring at legacy code on a Friday evening" rows="5"></textarea>
+                    <div class="meme-gen-actions">
+                        <button type="button" class="generate-btn" id="generateMemeBtn">Generate meme</button>
+                        <button type="button" class="generate-btn generate-btn--demo" id="demoMemeBtn">Try offline demo</button>
+                    </div>
+                </div>
+                <div class="meme-preview-panel">
+                    <div class="preview-placeholder" id="memePreview" aria-live="polite">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/%3E%3C/svg%3E" alt="">
+                        <p>Preview appears here</p>
+                    </div>
+                    <div class="preview-status" id="memeStatus" role="status"></div>
+                    <div class="meme-actions" id="memeActions">
+                        <button type="button" class="meme-action-btn" id="downloadMemeBtn" disabled>Download</button>
+                        <button type="button" class="meme-action-btn meme-action-btn--ghost" id="editMemeBtn">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultLightbox" class="result-lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Enlarged meme">
+        <button type="button" class="result-lightbox__close" data-lb-close aria-label="Close preview">&times;</button>
+        <img src="" alt="Generated meme full size">
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>FEATURES</h3>
+                <ul>
+                    <li><a href="#">Meme Generator</a></li>
+                    <li><a href="#">AI Tools</a></li>
+                    <li><a href="#">Templates</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>USE CASES</h3>
+                <ul>
+                    <li><a href="#">Social Media</a></li>
+                    <li><a href="#">Marketing</a></li>
+                    <li><a href="#">YouTube Thumbnails</a></li>
+                    <li><a href="#">GIFs</a></li>
+                    <li><a href="#">Content Creation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>RESOURCES</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Status</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>LEGAL</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Copyright</a></li>
+                    <li><a href="#">DMCA</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>COMPANY</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Partners</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add smooth scrolling for FAQ items
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.querySelector('.faq-answer');
+                const toggle = item.querySelector('.faq-toggle');
+                
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                } else {
+                    answer.style.maxHeight = "0px";
+                }
+            });
+        });
+    </script>
+
+    <script>
+        (function () {
+            const nav = document.querySelector('.site-nav');
+            function onScroll() {
+                if (nav) nav.classList.toggle('is-scrolled', window.scrollY > 6);
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        const memeModal = document.getElementById('memeGenModal');
+        const memeDialog = memeModal && memeModal.querySelector('.meme-gen-modal__dialog');
+        const resultLb = document.getElementById('resultLightbox');
+        const lbImg = resultLb && resultLb.querySelector('img');
+        let lastFocusBeforeModal = null;
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function openMemeModal() {
+            if (!memeModal) return;
+            lastFocusBeforeModal = document.activeElement;
+            memeModal.classList.add('is-open');
+            memeModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => {
+                if (memeDialog) memeDialog.focus();
+            });
+        }
+
+        function closeMemeModal() {
+            if (!memeModal) return;
+            memeModal.classList.remove('is-open');
+            memeModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (lastFocusBeforeModal && typeof lastFocusBeforeModal.focus === 'function') {
+                lastFocusBeforeModal.focus();
+            }
+        }
+
+        function openResultLightbox(src) {
+            if (!resultLb || !lbImg) return;
+            lbImg.src = src;
+            resultLb.classList.add('is-open');
+            resultLb.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            resultLb.querySelector('.result-lightbox__close')?.focus();
+        }
+
+        function closeResultLightbox() {
+            if (!resultLb) return;
+            resultLb.classList.remove('is-open');
+            resultLb.setAttribute('aria-hidden', 'true');
+            if (lbImg) lbImg.src = '';
+            document.body.style.overflow = memeModal && memeModal.classList.contains('is-open') ? 'hidden' : '';
+        }
+
+        function trapTab(e, root) {
+            if (e.key !== 'Tab') return;
+            const sel = 'button:not([disabled]), textarea:not([disabled]), [href], [tabindex]:not([tabindex="-1"])';
+            const nodes = Array.from(root.querySelectorAll(sel)).filter(
+                (n) => n.offsetParent !== null && !n.closest('.meme-gen-modal__backdrop')
+            );
+            if (nodes.length === 0) return;
+            const first = nodes[0];
+            const last = nodes[nodes.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+
+        if (memeModal) {
+            memeModal.addEventListener('keydown', (e) => {
+                if (!memeModal.classList.contains('is-open')) return;
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeMemeModal();
+                    return;
+                }
+                trapTab(e, memeModal.querySelector('.meme-gen-modal__dialog'));
+            });
+            memeModal.querySelectorAll('[data-meme-close]').forEach((el) => {
+                el.addEventListener('click', closeMemeModal);
+            });
+        }
+
+        if (resultLb) {
+            resultLb.addEventListener('keydown', (e) => {
+                if (!resultLb.classList.contains('is-open')) return;
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeResultLightbox();
+                }
+            });
+            resultLb.querySelector('[data-lb-close]').addEventListener('click', closeResultLightbox);
+            resultLb.addEventListener('click', (e) => {
+                if (e.target === resultLb) closeResultLightbox();
+            });
+        }
+
+        document.querySelector('.create-meme-btn')?.addEventListener('click', openMemeModal);
+        document.querySelector('.get-started-free-btn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            openMemeModal();
+        });
+        document.getElementById('navGetStartedBtn')?.addEventListener('click', openMemeModal);
+
+        var memeGenerationId = 0;
+
+        function resolveMemeImageUrl(raw) {
+            const t = (raw && String(raw).trim()) || '';
+            if (!t) return '';
+            const lower = t.slice(0, 5).toLowerCase();
+            if (lower === 'data:' || t.startsWith('http://') || t.startsWith('https://')) return t;
+            try {
+                return new URL(t, window.location.origin).href;
+            } catch (e) {
+                return t;
+            }
+        }
+
+        var demoBlobUrl = null;
+
+        function wrapCanvasText(ctx, text, maxWidth) {
+            const words = String(text || '')
+                .split(/\s+/)
+                .filter(function (w) {
+                    return w.length > 0;
+                });
+            if (words.length === 0) return [''];
+            const lines = [];
+            let line = '';
+            for (let i = 0; i < words.length; i++) {
+                const test = line ? line + ' ' + words[i] : words[i];
+                if (ctx.measureText(test).width > maxWidth && line) {
+                    lines.push(line);
+                    line = words[i];
+                } else {
+                    line = test;
+                }
+            }
+            if (line) lines.push(line);
+            return lines;
+        }
+
+        function drawOutlinedFillText(ctx, text, x, y) {
+            var offsets = [[-2, -2], [2, -2], [-2, 2], [2, 2], [-2, 0], [2, 0], [0, -2], [0, 2]];
+            ctx.fillStyle = '#000000';
+            for (var i = 0; i < offsets.length; i++) {
+                ctx.fillText(text, x + offsets[i][0], y + offsets[i][1]);
+            }
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(text, x, y);
+        }
+
+        function buildShowcaseDemoDataUrl(concept) {
+            try {
+                const W = 800;
+                const H = 600;
+                const canvas = document.createElement('canvas');
+                canvas.width = W;
+                canvas.height = H;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return '';
+                ctx.fillStyle = '#222222';
+                ctx.fillRect(0, 0, W, H);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#fb923c';
+                ctx.font = 'bold 28px system-ui, Segoe UI, Roboto, sans-serif';
+                ctx.fillText('MEME MIND AI', W / 2, 56);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
+                ctx.font = '600 13px system-ui, Segoe UI, Roboto, sans-serif';
+                ctx.fillText('OFFLINE SHOWCASE DEMO', W / 2, 86);
+
+                const body = (concept && String(concept).trim()) || 'Your idea goes here';
+                ctx.font = 'bold 30px system-ui, Segoe UI, Roboto, sans-serif';
+                const lines = wrapCanvasText(ctx, body, W - 72);
+                const slice = lines.slice(0, 4);
+                const y0 = 430;
+                const lh = 36;
+                slice.forEach(function (ln, idx) {
+                    drawOutlinedFillText(ctx, ln, W / 2, y0 + idx * lh);
+                });
+
+                ctx.font = '13px system-ui, Segoe UI, Roboto, sans-serif';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.textBaseline = 'alphabetic';
+                ctx.fillText(
+                    'Use Generate meme when FastAPI is running for the full AI + PNG pipeline.',
+                    W / 2,
+                    H - 22
+                );
+                return canvas.toDataURL('image/png');
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function escapeXmlAttr(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&apos;');
+        }
+
+        function chunkSvgLines(text, maxLen, maxLines) {
+            const words = String(text || '')
+                .split(/\s+/)
+                .filter(function (w) {
+                    return w.length > 0;
+                });
+            if (words.length === 0) return [''];
+            const out = [];
+            let line = '';
+            for (let i = 0; i < words.length; i++) {
+                const next = line ? line + ' ' + words[i] : words[i];
+                if (next.length > maxLen && line) {
+                    out.push(line);
+                    line = words[i];
+                    if (out.length >= maxLines) break;
+                } else {
+                    line = next;
+                }
+            }
+            if (line && out.length < maxLines) out.push(line);
+            return out.slice(0, maxLines);
+        }
+
+        function buildShowcaseDemoSvgDataUrl(concept) {
+            const raw = (concept && String(concept).trim()) || 'Your idea goes here';
+            const lines = chunkSvgLines(raw, 34, 5).map(function (ln) {
+                return escapeXmlAttr(ln);
+            });
+            const tspans = lines
+                .map(function (ln, i) {
+                    const dy = i === 0 ? '0' : '34';
+                    return '<tspan x="400" dy="' + dy + '">' + ln + '</tspan>';
+                })
+                .join('');
+            const svg =
+                '<?xml version="1.0" encoding="UTF-8"?>' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">' +
+                '<rect width="800" height="600" fill="#222222"/>' +
+                '<text x="400" y="58" text-anchor="middle" fill="#fb923c" font-size="28" font-weight="700" font-family="system-ui,Segoe UI,Roboto,sans-serif">MEME MIND AI</text>' +
+                '<text x="400" y="90" text-anchor="middle" fill="rgba(255,255,255,0.78)" font-size="13" font-weight="600" font-family="system-ui,Segoe UI,Roboto,sans-serif">OFFLINE SHOWCASE DEMO (SVG)</text>' +
+                '<text x="400" y="400" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="700" font-family="system-ui,Segoe UI,Roboto,sans-serif" stroke="#000000" stroke-width="3" paint-order="stroke fill">' +
+                tspans +
+                '</text>' +
+                '<text x="400" y="578" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="13" font-family="system-ui,Segoe UI,Roboto,sans-serif">SVG fallback when canvas export is blocked.</text>' +
+                '</svg>';
+            return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+        }
+
+        async function resolveOfflineDemoImageUrl(line) {
+            var url = '';
+            var mode = 'svg';
+            if (window.location.protocol !== 'file:') {
+                try {
+                    var demoUrl = new URL('/api/demo-meme', window.location.origin);
+                    demoUrl.searchParams.set('q', line.slice(0, 500));
+                    var r = await fetch(demoUrl.toString(), { method: 'GET', cache: 'no-store' });
+                    if (r.ok) {
+                        var blob = await r.blob();
+                        if (blob && blob.size > 0) {
+                            url = URL.createObjectURL(blob);
+                            mode = 'server';
+                        }
+                    }
+                } catch (e) {}
+            }
+            if (!url) {
+                url = buildShowcaseDemoDataUrl(line);
+                if (url) mode = 'canvas';
+            }
+            if (!url) {
+                url = buildShowcaseDemoSvgDataUrl(line);
+                mode = 'svg';
+            }
+            return { url: url, mode: mode };
+        }
+
+        async function applyOfflineDemoToPreview(prompt, extraNotice) {
+            const preview = document.getElementById('memePreview');
+            const status = document.getElementById('memeStatus');
+            const downloadBtn = document.getElementById('downloadMemeBtn');
+            const editBtn = document.getElementById('editMemeBtn');
+            if (!preview) return;
+            const myGen = ++memeGenerationId;
+            const isStale = function () {
+                return myGen !== memeGenerationId;
+            };
+            const line = (prompt && String(prompt).trim()) || 'Your idea goes here';
+            const resolved = await resolveOfflineDemoImageUrl(line);
+            if (isStale()) {
+                if (resolved.url && resolved.url.indexOf('blob:') === 0) {
+                    try {
+                        URL.revokeObjectURL(resolved.url);
+                    } catch (e) {}
+                }
+                return;
+            }
+            if (demoBlobUrl && demoBlobUrl !== resolved.url) {
+                try {
+                    URL.revokeObjectURL(demoBlobUrl);
+                } catch (e) {}
+            }
+            demoBlobUrl = resolved.url.indexOf('blob:') === 0 ? resolved.url : null;
+            var url = resolved.url;
+            var mode = resolved.mode;
+            const caption =
+                'POV: You preview the product before the API is wired.\n(' +
+                line.slice(0, 72) +
+                (line.length > 72 ? '…' : '') +
+                ')';
+            const baseByMode = {
+                server: 'Showcase PNG from /api/demo-meme (Pillow, no Gemini).',
+                canvas: 'Showcase PNG rendered in your browser (canvas).',
+                svg: 'Showcase image from SVG fallback (canvas export blocked).',
+            };
+            const base = baseByMode[mode] || baseByMode.svg;
+            const notice = extraNotice ? String(extraNotice).trim() + ' ' + base : base;
+            preview.innerHTML = '';
+            const img = document.createElement('img');
+            img.id = 'generatedMemeImg';
+            img.src = url;
+            img.alt = 'Showcase demo meme';
+            const cap = document.createElement('p');
+            cap.style.cssText = 'color:#fff;font-size:1rem;margin-top:12px;line-height:1.4;text-align:center;';
+            cap.textContent = caption;
+            preview.appendChild(img);
+            preview.appendChild(cap);
+            const tip = document.createElement('p');
+            tip.className = 'meme-caption-notice';
+            tip.setAttribute('role', 'note');
+            tip.textContent = notice;
+            preview.appendChild(tip);
+            if (status) status.textContent = 'Demo ready — click the image to enlarge.';
+            if (downloadBtn) downloadBtn.disabled = false;
+            img.onload = function () {
+                if (isStale()) return;
+                if (status) status.textContent = 'Demo ready — click the image to enlarge.';
+                if (downloadBtn) downloadBtn.disabled = false;
+            };
+            img.onerror = function () {
+                if (isStale()) return;
+                if (status) status.textContent = 'This browser blocked the demo image.';
+            };
+            img.addEventListener('click', function () {
+                openResultLightbox(img.src);
+            });
+            if (downloadBtn) {
+                downloadBtn.onclick = function () {
+                    const el = document.getElementById('generatedMemeImg');
+                    if (!el || !el.src) return;
+                    var href = el.src;
+                    var name = 'meme-demo.png';
+                    if (href.indexOf('blob:') === 0) {
+                        fetch(href)
+                            .then(function (r) {
+                                return r.blob();
+                            })
+                            .then(function (b) {
+                                var o = URL.createObjectURL(b);
+                                var a = document.createElement('a');
+                                a.href = o;
+                                a.download = name;
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                                URL.revokeObjectURL(o);
+                            })
+                            .catch(function () {});
+                        return;
+                    }
+                    var a = document.createElement('a');
+                    a.href = href;
+                    a.download = name;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                };
+            }
+            if (editBtn) {
+                editBtn.onclick = function () {
+                    alert('Edit functionality coming soon!');
+                };
+            }
+        }
+
+        function resetPreviewIdle() {
+            const preview = document.getElementById('memePreview');
+            if (!preview) return;
+            preview.innerHTML = '<img src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2724%27 viewBox=%270 0 24 24%27%3E%3Cpath fill=%27white%27 d=%27M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z%27/%3E%3C/svg%3E" alt=""><p>Preview appears here</p>';
+        }
+
+        async function generateMeme() {
+            const input = document.getElementById('memeInput');
+            const preview = document.getElementById('memePreview');
+            const status = document.getElementById('memeStatus');
+            const downloadBtn = document.getElementById('downloadMemeBtn');
+            const editBtn = document.getElementById('editMemeBtn');
+            const genBtn = document.getElementById('generateMemeBtn');
+            if (!input || !preview) return;
+
+            const prompt = input.value.trim();
+            if (status) status.textContent = '';
+
+            if (!prompt) {
+                preview.innerHTML = '<p style="color:#fecaca;">Please enter a meme concept.</p>';
+                if (status) status.textContent = 'Add a short description to continue.';
+                return;
+            }
+
+            if (window.location.protocol === 'file:') {
+                await applyOfflineDemoToPreview(
+                    prompt,
+                    'Opened as a local file — live API calls are blocked by the browser.'
+                );
+                if (status) {
+                    status.textContent =
+                        'Demo only (file://). Serve http://127.0.0.1:8000/ for live generation.';
+                }
+                return;
+            }
+
+            const myGen = ++memeGenerationId;
+            const isStale = function () {
+                return myGen !== memeGenerationId;
+            };
+
+            preview.innerHTML = '<div class="meme-spinner" aria-hidden="true"></div><p style="color:#fff;margin:0;">Generating your meme…</p>';
+            if (status) status.textContent = 'Calling the AI and building your image…';
+            if (downloadBtn) downloadBtn.disabled = true;
+            if (genBtn) genBtn.disabled = true;
+
+            try {
+                const response = await fetch('/send-message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: prompt }),
+                });
+                let data;
+                try {
+                    data = await response.json();
+                } catch {
+                    if (isStale()) return;
+                    await applyOfflineDemoToPreview(
+                        prompt,
+                        'Server returned invalid JSON — showing a browser-only demo instead.'
+                    );
+                    if (status) {
+                        status.textContent = response.ok
+                            ? 'Demo shown — try again in a moment.'
+                            : 'Demo shown — check that FastAPI is running on this host.';
+                    }
+                    return;
+                }
+
+                if (isStale()) return;
+
+                if (!response.ok) {
+                    await applyOfflineDemoToPreview(
+                        prompt,
+                        'HTTP ' +
+                            response.status +
+                            (data && data.message ? ': ' + String(data.message) : '') +
+                            '.'
+                    );
+                    if (status) status.textContent = 'Live request failed — demo is shown below.';
+                    return;
+                }
+
+                if (data.status === 'success') {
+                    const rawPath = (data.image_url && String(data.image_url).trim()) || '';
+                    if (!rawPath) {
+                        await applyOfflineDemoToPreview(
+                            prompt,
+                            'Server succeeded but returned no image URL — showing demo instead.'
+                        );
+                        if (status) status.textContent = 'Missing image URL — demo is shown below.';
+                        return;
+                    }
+                    let imgUrl = resolveMemeImageUrl(rawPath);
+                    if (imgUrl && !imgUrl.startsWith('data:')) {
+                        imgUrl += (imgUrl.includes('?') ? '&' : '?') + 'cb=' + Date.now();
+                    }
+                    preview.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.id = 'generatedMemeImg';
+                    img.src = imgUrl;
+                    img.alt = 'Generated meme';
+                    const cap = document.createElement('p');
+                    cap.style.cssText = 'color:#fff;font-size:1rem;margin-top:12px;line-height:1.4;text-align:center;';
+                    cap.textContent = data.caption || '';
+                    preview.appendChild(img);
+                    preview.appendChild(cap);
+                    const noticeText = (data.notice && String(data.notice).trim()) || '';
+                    const capText = (data.caption && String(data.caption).trim()) || '';
+                    if (noticeText && noticeText !== capText) {
+                        const tip = document.createElement('p');
+                        tip.className = 'meme-caption-notice';
+                        tip.setAttribute('role', 'note');
+                        tip.textContent = noticeText;
+                        preview.appendChild(tip);
+                    }
+                    if (status) status.textContent = 'Loading preview…';
+                    if (downloadBtn) downloadBtn.disabled = true;
+                    img.onload = function () {
+                        if (isStale()) return;
+                        if (status) {
+                            status.textContent = (data.caption_source === 'template')
+                                ? 'Ready — template caption (set GEMINI_API_KEY for AI text). Click the image to enlarge.'
+                                : 'Ready — click the image to enlarge.';
+                        }
+                        if (downloadBtn) downloadBtn.disabled = false;
+                    };
+                    img.onerror = function () {
+                        if (isStale()) return;
+                        void (async function () {
+                            await applyOfflineDemoToPreview(
+                                prompt,
+                                'The generated image URL failed to load — showing a local demo instead.'
+                            );
+                        })();
+                        if (status) status.textContent = 'Image failed — demo is shown below.';
+                    };
+
+                    img.addEventListener('click', () => openResultLightbox(img.src));
+
+                    if (downloadBtn) downloadBtn.onclick = function () {
+                        const el = document.getElementById('generatedMemeImg');
+                        if (!el) return;
+                        const a = document.createElement('a');
+                        a.href = el.src;
+                        a.download = 'meme.png';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    };
+                    if (editBtn) editBtn.onclick = function () {
+                        alert('Edit functionality coming soon!');
+                    };
+                } else {
+                    await applyOfflineDemoToPreview(
+                        prompt,
+                        data && data.message ? String(data.message) : 'Generation failed.'
+                    );
+                    if (status) status.textContent = 'Live generation failed — demo is shown below.';
+                }
+            } catch {
+                if (!isStale()) {
+                    await applyOfflineDemoToPreview(
+                        prompt,
+                        'Could not reach the server — check that it is running.'
+                    );
+                    if (status) status.textContent = 'Network error — demo is shown below.';
+                }
+            } finally {
+                if (genBtn) genBtn.disabled = false;
+            }
+        }
+
+        document.getElementById('generateMemeBtn')?.addEventListener('click', generateMeme);
+        document.getElementById('demoMemeBtn')?.addEventListener('click', function () {
+            void (async function () {
+                const input = document.getElementById('memeInput');
+                const status = document.getElementById('memeStatus');
+                const prompt =
+                    (input && input.value.trim()) ||
+                    'A developer staring at legacy code on a Friday evening';
+                if (status) status.textContent = '';
+                await applyOfflineDemoToPreview(prompt, '');
+            })();
+        });
+    </script>
+
+    <script>
+        // Array of transition effects
+        const transitions = [
+            { class: 'slide-up', name: 'Slide Up' },
+            { class: 'slide-down', name: 'Slide Down' },
+            { class: 'slide-left', name: 'Slide Left' },
+            { class: 'slide-right', name: 'Slide Right' },
+            { class: 'fade', name: 'Fade' }
+        ];
+
+        // Page transition function
+        function navigateWithTransition(url) {
+            const transition = document.createElement('div');
+            const randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+            transition.className = `page-transition ${randomTransition.class}`;
+            document.body.appendChild(transition);
+            
+            // Force reflow
+            transition.offsetHeight;
+            
+            requestAnimationFrame(() => {
+                transition.classList.add('active');
+            });
+            
+            setTimeout(() => {
+                window.location.href = url;
+            }, 300);
+        }
+
+        document.querySelector('.view-gallery-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateWithTransition('/gallery');
+        });
+
+        // Add transition when page loads
+        window.addEventListener('load', function() {
+            const transition = document.createElement('div');
+            const randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+            transition.className = `page-transition ${randomTransition.class}`;
+            document.body.appendChild(transition);
+            
+            // Force reflow
+            transition.offsetHeight;
+            
+            requestAnimationFrame(() => {
+                transition.classList.add('active');
+            });
+            
+            setTimeout(() => {
+                transition.remove();
+            }, 300);
+        });
+    </script>
+
+</body>
+</html>

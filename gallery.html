@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Meme Gallery - MEME MIND AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+        :root {
+            --primary: #E85D04;
+            --primary-hover: #FF7A1A;
+            --surface: #121212;
+            --surface-elevated: #1a1a1a;
+            --border: #2a2a2e;
+            --text: #fafafa;
+            --muted: #a1a1aa;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .page-transition {
+                display: none !important;
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+        
+        /* Page Transition */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        /* Different transition effects */
+        .slide-up {
+            transform: translate3d(0, 100%, 0);
+            background: linear-gradient(45deg, #FF6B00, #FF8533);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-down {
+            transform: translate3d(0, -100%, 0);
+            background: linear-gradient(45deg, #FF0000, #FF6B6B);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-left {
+            transform: translate3d(100%, 0, 0);
+            background: linear-gradient(45deg, #4A90E2, #7ED321);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-right {
+            transform: translate3d(-100%, 0, 0);
+            background: linear-gradient(45deg, #9013FE, #50E3C2);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade {
+            opacity: 0;
+            background: linear-gradient(45deg, #FF69B4, #FF1493);
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-transition.active.slide-up,
+        .page-transition.active.slide-down {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .page-transition.active.slide-left,
+        .page-transition.active.slide-right {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .page-transition.active.fade {
+            opacity: 1;
+        }
+
+        body {
+            background-color: #121212;
+            overflow-x: hidden;
+            color: #ffffff;
+        }
+
+        nav.site-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 32px;
+            background-color: rgba(30, 30, 30, 0.92);
+            color: var(--text);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            border-bottom: 1px solid transparent;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        nav.site-nav.is-scrolled {
+            border-bottom-color: var(--border);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+            background-color: rgba(24, 24, 24, 0.97);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Gallery Header */
+        .gallery-header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(to right, #FF6B00, #FF8533);
+        }
+
+        .gallery-header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .gallery-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Gallery Grid */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            transform-origin: center;
+            background: #1E1E1E;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item-info {
+            padding: 16px;
+            background: #1E1E1E;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover .gallery-item-info {
+            background: #2A2A2A;
+        }
+
+        .gallery-item-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .gallery-item-description {
+            font-size: 14px;
+            color: #B0B0B0;
+        }
+
+        /* Gallery Filter Buttons */
+        .gallery-filters {
+            margin: 40px 0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .filter-btn {
+            background: linear-gradient(45deg, #FF6B00, #FF8533);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.2);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(45deg, #FF8533, #FF6B00);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+        }
+
+        /* Different gradients for each filter button */
+        .filter-btn:nth-child(1) { /* All */
+            background: linear-gradient(45deg, #FF6B00, #FF8533, #FFA366, #FF8533);
+        }
+
+        .filter-btn:nth-child(2) { /* Trending */
+            background: linear-gradient(45deg, #FF4E50, #F9D423, #FF4E50, #F9D423);
+        }
+
+        .filter-btn:nth-child(3) { /* Latest */
+            background: linear-gradient(45deg, #00C9FF, #92FE9D, #00C9FF, #92FE9D);
+        }
+
+        .filter-btn:nth-child(4) { /* Most Popular */
+            background: linear-gradient(45deg, #FF8008, #FFC837, #FF8008, #FFC837);
+        }
+
+        /* Add pulse effect on hover */
+        .filter-btn:hover {
+            animation: buttonPulse 1s ease infinite, gradientShift 2s ease infinite;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .gallery-filters {
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .filter-btn {
+                font-size: 16px;
+                padding: 12px 24px;
+                min-width: 150px;
+            }
+        }
+
+        /* Error placeholder styles */
+        .error-placeholder {
+            width: 100%;
+            height: 250px;
+            background: #1E1E1E;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px 12px 0 0;
+            padding: 20px;
+            text-align: center;
+            color: #B0B0B0;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #FF6B00;
+        }
+
+        .error-message {
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .retry-btn {
+            background: linear-gradient(45deg, #FF6B00, #FF8533);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.2);
+        }
+
+        .retry-btn:active {
+            transform: translateY(1px);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 107, 0, 0.1);
+            border-left: 4px solid #FF6B00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: scale(0.98); }
+            50% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(0.98); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Smooth page transitions */
+        .page-transition {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .page-transition.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Enhanced Button Animations */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .pagination-btn {
+            font-size: 18px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background-size: 200% 200%;
+            color: white;
+            min-width: 180px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: gradientShift 5s ease infinite;
+        }
+
+        .pagination-btn.prev {
+            background: linear-gradient(45deg, #FF6B00, #FF8533, #FFA366, #FF8533);
+        }
+
+        .pagination-btn.next {
+            background: linear-gradient(45deg, #FF8533, #FFA366, #FF6B00, #FF8533);
+        }
+
+        .pagination-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            animation: gradientShift 2s ease infinite;
+        }
+
+        .pagination-btn:active {
+            transform: translateY(1px);
+        }
+
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            padding: 15px 40px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: #333;
+            min-width: 200px;
+            text-align: center;
+            background: linear-gradient(45deg, #f8f8f8, #ffffff, #f0f0f0);
+            animation: gradientShift 8s ease infinite;
+        }
+
+        /* Disable button styles */
+        .pagination-btn.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        }
+
+        /* Add pulse effect on hover */
+        @keyframes buttonPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pagination-btn:not(.disabled):hover {
+            animation: buttonPulse 1s ease infinite, gradientShift 2s ease infinite;
+        }
+
+        /* Add loading skeleton animation */
+        @keyframes shimmerAnimation {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .image-skeleton {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+            border-radius: 12px 12px 0 0;
+        }
+
+        /* Add image container for better hover effect */
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #1E1E1E;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container img.loaded {
+            opacity: 1;
+        }
+
+        /* Add hover overlay effect */
+        .image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 107, 0, 0.1);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover .image-container::after {
+            opacity: 1;
+        }
+
+        /* Update grid layout for better hover effect */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 30px;
+            margin: 0 auto;
+            max-width: 1600px;
+        }
+
+        /* Add smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 95vw;
+            height: 95vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .modal-content img {
+            max-width: 95vw;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+            transform: scale(0.98);
+        }
+
+        .modal-overlay.active .modal-content img {
+            transform: scale(1);
+        }
+
+        .modal-back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #FF6B00, #FF8533);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+            background: linear-gradient(45deg, #FF8533, #FF6B00);
+        }
+
+        .modal-back-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Add keyboard navigation hint */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            z-index: 1001;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active .keyboard-hint {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .modal-back-btn {
+                top: 10px;
+                right: 10px;
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+        }
+
+        /* Add pagination styles */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pagination-button {
+            background: linear-gradient(45deg, #FF6B00, #FF8533);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .pagination-button:hover:not(.active):not(.disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.2);
+        }
+
+        .pagination-button.active {
+            background: linear-gradient(45deg, #FF8533, #FF6B00);
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        .pagination-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #2A2A2A;
+        }
+
+        .page-info {
+            color: #B0B0B0;
+            font-size: 14px;
+            margin: 0 20px;
+        }
+
+        .pagination-ellipsis {
+            color: #B0B0B0;
+            font-size: 20px;
+            margin: 0 5px;
+        }
+
+        /* YouTube-style Like/Dislike Button Styles */
+        .interaction-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0 0 0;
+            background: #1E1E1E;
+            border-top: 1px solid #232323;
+            gap: 0;
+        }
+        .yt-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #232323;
+            border: none;
+            border-radius: 999px;
+            color: #B0B0B0;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 20px 8px 16px;
+            margin: 0 2px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            position: relative;
+            outline: none;
+        }
+        .yt-btn:focus {
+            box-shadow: 0 0 0 2px #FF6B00;
+        }
+        .yt-btn:hover {
+            background: #292929;
+            color: #FF6B00;
+        }
+        .yt-btn.active {
+            background: #FF6B00;
+            color: #fff;
+        }
+        .yt-btn i {
+            font-size: 20px;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .yt-btn.active i {
+            color: #fff;
+            transform: scale(1.15);
+        }
+        .yt-divider {
+            width: 1px;
+            height: 28px;
+            background: #333;
+            margin: 0 4px;
+        }
+        .yt-count {
+            min-width: 18px;
+            text-align: right;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .yt-btn .yt-count.count-animate {
+            animation: countPop 0.3s ease-out;
+        }
+
+        /* Download Button Styles */
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px auto 0 auto;
+            padding: 10px 24px;
+            background: linear-gradient(45deg, #FF6B00, #FF8533);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 107, 0, 0.15);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .download-btn:hover {
+            background: linear-gradient(45deg, #FF8533, #FF6B00);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .download-btn i {
+            font-size: 18px;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .gallery-skeleton-item {
+            background: var(--surface-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        .gallery-skeleton-img {
+            height: 250px;
+            background: linear-gradient(90deg, #252525 0%, #353535 45%, #252525 90%);
+            background-size: 220% 100%;
+            animation: galleryShimmer 1.15s ease-in-out infinite;
+        }
+
+        .gallery-skeleton-lines {
+            height: 72px;
+            padding: 16px;
+            background: var(--surface-elevated);
+        }
+
+        .gallery-skeleton-lines::before,
+        .gallery-skeleton-lines::after {
+            content: '';
+            display: block;
+            height: 12px;
+            border-radius: 6px;
+            background: #333;
+            margin-bottom: 10px;
+            width: 70%;
+        }
+
+        .gallery-skeleton-lines::after {
+            width: 45%;
+            margin-bottom: 0;
+        }
+
+        @keyframes galleryShimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-skeleton-img {
+                animation: none;
+                background: #2a2a2a;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="site-nav" aria-label="Main">
+        <a href="/" class="logo">MEME MIND AI</a>
+    </nav>
+
+    <div id="galleryModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="galleryModalTitle">
+        <h2 id="galleryModalTitle" class="visually-hidden">Full-size image preview</h2>
+        <div class="modal-content" tabindex="-1">
+            <img src="" alt="" tabindex="0">
+        </div>
+        <button type="button" class="modal-back-btn">← Back</button>
+        <div class="keyboard-hint">Use ESC to close · Tab to focus controls</div>
+    </div>
+
+    <!-- Gallery Header -->
+    <header class="gallery-header">
+        <h1>AI Meme Gallery</h1>
+        <p>Explore our collection of AI-generated memes. Get inspired and see what's possible with MEME MIND AI.</p>
+    </header>
+
+    <!-- Gallery Section -->
+    <div class="gallery-container">
+        <!-- Filter Controls -->
+        <div class="gallery-filters">
+            <button type="button" class="filter-btn active" data-filter="all">All</button>
+            <button type="button" class="filter-btn" data-filter="trending">Trending</button>
+            <button type="button" class="filter-btn" data-filter="latest">Latest</button>
+            <button type="button" class="filter-btn" data-filter="popular">Most Popular</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid">
+            <!-- Gallery items will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        const transitions = [
+            { class: 'slide-up', name: 'Slide Up' },
+            { class: 'slide-down', name: 'Slide Down' },
+            { class: 'slide-left', name: 'Slide Left' },
+            { class: 'slide-right', name: 'Slide Right' },
+            { class: 'fade', name: 'Fade' }
+        ];
+
+        class ImageLoader {
+            constructor() {
+                this.imageCache = new Map();
+                this.observer = null;
+                this.loadedImages = new Set();
+                this.failedImages = new Set();
+                this.retryCount = new Map();
+                this.maxRetries = 3;
+                this.setupIntersectionObserver();
+            }
+
+            setupIntersectionObserver() {
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const container = entry.target;
+                            const img = container.querySelector('img[data-src]');
+                            if (img && !this.loadedImages.has(img.getAttribute('data-src'))) {
+                                this.loadImage(img);
+                            }
+                        }
+                    });
+                }, {
+                    rootMargin: '100px 0px',
+                    threshold: 0.1
+                });
+            }
+
+            async loadImage(img) {
+                const src = img.getAttribute('data-src');
+                if (!src || this.loadedImages.has(src)) return;
+
+                const container = img.closest('.gallery-item');
+                if (!container) return;
+
+                const loadingSpinner = container.querySelector('.loading-spinner');
+                if (loadingSpinner) loadingSpinner.style.display = 'block';
+
+                try {
+                    await this.preloadImage(src);
+                    
+                    img.onload = () => {
+                                img.classList.add('loaded');
+                                container.classList.add('loaded');
+                        if (loadingSpinner) loadingSpinner.style.display = 'none';
+                    };
+                    
+                    img.src = src;
+                    this.loadedImages.add(src);
+                    this.imageCache.set(src, src);
+
+                } catch (error) {
+                    console.error('Failed to load image:', src);
+                    const retryCount = this.retryCount.get(src) || 0;
+                    
+                    if (retryCount < this.maxRetries) {
+                        this.retryCount.set(src, retryCount + 1);
+                        setTimeout(() => this.loadImage(img), 1000 * (retryCount + 1));
+                    } else {
+                    this.handleImageError(img);
+                    }
+                }
+            }
+
+            preloadImage(src) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    
+                    const timeoutId = setTimeout(() => {
+                        reject(new Error('Timeout'));
+                    }, 10000);
+                    
+                    img.onload = () => {
+                        clearTimeout(timeoutId);
+                        resolve(src);
+                    };
+                    
+                    img.onerror = () => {
+                        clearTimeout(timeoutId);
+                        reject(new Error(`Failed to load ${src}`));
+                    };
+                    
+                    img.src = src;
+                });
+            }
+
+            handleImageError(img) {
+                const container = img.closest('.gallery-item');
+                const imageNumber = img.alt.match(/\d+/)?.[0] || 'Unknown';
+                const imageContainer = container.querySelector('.image-container');
+                if (imageContainer) {
+                    imageContainer.innerHTML = `
+                        <div class="error-placeholder">
+                            <div class="error-icon">😕</div>
+                            <div class="error-message">
+                                Unable to load Meme ${imageNumber}
+                                <button class="retry-btn" onclick="imageLoader.retryLoad(this)">Retry</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            retryLoad(button) {
+                const container = button.closest('.gallery-item');
+                const imageContainer = container.querySelector('.image-container');
+                const originalSrc = container.querySelector('img')?.getAttribute('data-src');
+                
+                if (originalSrc && imageContainer) {
+                    imageContainer.innerHTML = `
+                        <div class="loading-spinner"></div>
+                        <img data-src="${originalSrc}" alt="AI Generated Meme" loading="lazy">
+                    `;
+                    
+                    const newImg = imageContainer.querySelector('img');
+                    this.loadImage(newImg);
+                }
+            }
+
+            observe(element) {
+                this.observer.observe(element);
+            }
+        }
+
+        // Initialize image loader and global state
+        const imageLoader = new ImageLoader();
+        let totalGalleryImages = 0;
+        const imagesPerPage = 12;
+        let currentPage = 1;
+        let gallerySort = 'all';
+        const state = {
+            isLoading: false
+        };
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        async function loadGalleryImages(page = 1, append = false) {
+            if (state.isLoading) return;
+            state.isLoading = true;
+
+            const galleryGrid = document.querySelector('.gallery-grid');
+            if (!append) {
+                imageLoader.loadedImages.clear();
+                imageLoader.retryCount.clear();
+                galleryGrid.innerHTML = '';
+                for (let s = 0; s < imagesPerPage; s++) {
+                    const sk = document.createElement('div');
+                    sk.className = 'gallery-skeleton-item';
+                    sk.setAttribute('aria-hidden', 'true');
+                    sk.innerHTML = '<div class="gallery-skeleton-img"></div><div class="gallery-skeleton-lines"></div>';
+                    galleryGrid.appendChild(sk);
+                }
+            }
+
+            const startIndex = (page - 1) * imagesPerPage;
+
+            try {
+                const r = await fetch(`/api/gallery?page=${page}&per_page=${imagesPerPage}&sort=${encodeURIComponent(gallerySort)}`);
+                if (!r.ok) throw new Error('bad response');
+                const data = await r.json();
+                totalGalleryImages = data.total || 0;
+                const currentItems = data.items || [];
+
+                if (!append) {
+                    galleryGrid.innerHTML = '';
+                }
+
+                const fragment = document.createDocumentFragment();
+
+                currentItems.forEach((entry, index) => {
+                    const imageNumber = startIndex + index + 1;
+                    const path = entry.url;
+                    const title = escapeHtml(entry.title || `Meme ${imageNumber}`);
+                    const desc = escapeHtml(entry.description || 'MEME MIND AI');
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+
+                    item.innerHTML = `
+                    <div class="image-container">
+                        <div class="loading-spinner"></div>
+                        <img data-src="${path}" alt="AI Generated Meme ${imageNumber}" loading="lazy">
+                    </div>
+                    <div class="gallery-item-info">
+                        <div class="gallery-item-title">${title}</div>
+                        <div class="gallery-item-description">${desc}</div>
+                    </div>
+                    <div class="interaction-buttons">
+                        <button type="button" class="yt-btn like-btn" onclick="handleLike(this, ${imageNumber})">
+                            <i class='fa-solid fa-thumbs-up'></i>
+                            <span class="yt-count like-count">0</span>
+                        </button>
+                        <div class="yt-divider"></div>
+                        <button type="button" class="yt-btn dislike-btn" onclick="handleDislike(this, ${imageNumber})">
+                            <i class='fa-solid fa-thumbs-down'></i>
+                            <span class="yt-count dislike-count">0</span>
+                        </button>
+                    </div>
+                    <button type="button" class="download-btn" onclick="downloadMeme(this)">
+                        <i class='fa-solid fa-download'></i> Download
+                    </button>
+                `;
+
+                    fragment.appendChild(item);
+
+                    const img = item.querySelector('img');
+                    if (img) {
+                        imageLoader.loadImage(img);
+                    }
+                });
+
+                galleryGrid.appendChild(fragment);
+
+                document.querySelectorAll('.gallery-item:not(.observed)').forEach(item => {
+                    imageLoader.observe(item);
+                    item.classList.add('observed');
+                });
+            } catch (e) {
+                console.error(e);
+                if (!append) {
+                    galleryGrid.innerHTML = '<p style="text-align:center;padding:2rem;color:#ff6b00;">Could not load gallery. Start the backend from the Backend folder (<code>uvicorn main:app --reload</code>) and open this page from <code>http://127.0.0.1:8000/gallery</code>.</p>';
+                }
+            } finally {
+                state.isLoading = false;
+                updatePaginationControls();
+                addGalleryClickEvents();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('.site-nav');
+            const onNavScroll = () => {
+                if (nav) nav.classList.toggle('is-scrolled', window.scrollY > 6);
+            };
+            window.addEventListener('scroll', onNavScroll, { passive: true });
+            onNavScroll();
+            loadGalleryImages(1);
+            setTimeout(loadLikeStates, 1000);
+        });
+
+        function updatePaginationControls() {
+            const totalImages = totalGalleryImages;
+            const totalPages = Math.max(1, Math.ceil(totalImages / imagesPerPage));
+            
+            let paginationContainer = document.querySelector('.pagination-container');
+            if (!paginationContainer) {
+                paginationContainer = document.createElement('div');
+                paginationContainer.className = 'pagination-container';
+                document.querySelector('.gallery-container').appendChild(paginationContainer);
+            }
+            
+            paginationContainer.innerHTML = '';
+                
+                // Previous button
+            const prevButton = createPaginationButton('←', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        loadGalleryImages(currentPage);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+            }, currentPage === 1);
+            paginationContainer.appendChild(prevButton);
+
+            // Page numbers
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            if (startPage > 1) {
+                paginationContainer.appendChild(createPaginationButton('1', () => {
+                    currentPage = 1;
+                    loadGalleryImages(1);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }));
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationContainer.appendChild(ellipsis);
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = createPaginationButton(i.toString(), () => {
+                    currentPage = i;
+                    loadGalleryImages(i);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, false, currentPage === i);
+                paginationContainer.appendChild(pageButton);
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationContainer.appendChild(ellipsis);
+                }
+                
+                paginationContainer.appendChild(createPaginationButton(totalPages.toString(), () => {
+                    currentPage = totalPages;
+                    loadGalleryImages(totalPages);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }));
+            }
+                
+                // Next button
+            const nextButton = createPaginationButton('→', () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        loadGalleryImages(currentPage);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+            }, currentPage === totalPages);
+            paginationContainer.appendChild(nextButton);
+
+            // Page info
+            const pageInfo = document.createElement('div');
+            pageInfo.className = 'page-info';
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages} (${totalImages} images)`;
+            paginationContainer.appendChild(pageInfo);
+        }
+
+        // Helper function to create pagination buttons
+        function createPaginationButton(text, onClick, disabled = false, active = false) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'pagination-button';
+            if (disabled) button.classList.add('disabled');
+            if (active) button.classList.add('active');
+            button.textContent = text;
+            if (!disabled) {
+                button.addEventListener('click', onClick);
+            }
+            return button;
+        }
+
+        document.querySelectorAll('.filter-btn').forEach((btn) => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+                this.classList.add('active');
+                gallerySort = this.getAttribute('data-filter') || 'all';
+                currentPage = 1;
+                loadGalleryImages(1, false);
+            });
+        });
+
+        // Add transition when page loads
+        window.addEventListener('load', function() {
+            const transition = document.createElement('div');
+            const randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+            transition.className = `page-transition ${randomTransition.class}`;
+            document.body.appendChild(transition);
+            
+            // Force reflow
+            transition.offsetHeight;
+            
+            requestAnimationFrame(() => {
+                transition.classList.add('active');
+            });
+            
+            setTimeout(() => {
+                transition.remove();
+            }, 300);
+        });
+
+        // Page transition function
+        function navigateWithTransition(url) {
+            const transition = document.createElement('div');
+            const randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+            transition.className = `page-transition ${randomTransition.class}`;
+            document.body.appendChild(transition);
+            
+            // Force reflow
+            transition.offsetHeight;
+            
+            requestAnimationFrame(() => {
+                transition.classList.add('active');
+            });
+            
+            setTimeout(() => {
+                window.location.href = url;
+            }, 300);
+        }
+
+        // Update the logo link click handler
+        document.querySelector('.logo').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Try transition, but always fallback to direct navigation
+            try {
+            navigateWithTransition('/');
+            } catch (err) {
+                window.location.href = '/';
+            }
+        });
+
+        const modalOverlay = document.getElementById('galleryModal');
+        const modalImg = modalOverlay && modalOverlay.querySelector('.modal-content img');
+        const modalBackBtn = modalOverlay && modalOverlay.querySelector('.modal-back-btn');
+        let galleryModalPrevFocus = null;
+
+        function openModal(imgSrc) {
+            if (!modalOverlay || !modalImg) return;
+            galleryModalPrevFocus = document.activeElement;
+            modalImg.src = imgSrc;
+            modalImg.alt = 'Full size preview';
+            modalOverlay.classList.add('active');
+            modalOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => {
+                if (modalBackBtn) modalBackBtn.focus();
+            });
+        }
+
+        function closeModal() {
+            if (!modalOverlay || !modalImg) return;
+            modalOverlay.classList.remove('active');
+            modalOverlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                modalImg.src = '';
+                modalImg.alt = '';
+            }, 200);
+            if (galleryModalPrevFocus && typeof galleryModalPrevFocus.focus === 'function') {
+                galleryModalPrevFocus.focus();
+            }
+        }
+
+        if (modalOverlay) {
+            modalOverlay.addEventListener('keydown', (e) => {
+                if (!modalOverlay.classList.contains('active')) return;
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeModal();
+                    return;
+                }
+                if (e.key === 'Tab' && modalBackBtn && modalImg) {
+                    const nodes = [modalBackBtn, modalImg];
+                    const idx = nodes.indexOf(document.activeElement);
+                    if (e.shiftKey) {
+                        if (idx <= 0) {
+                            e.preventDefault();
+                            nodes[nodes.length - 1].focus();
+                        }
+                    } else if (idx === nodes.length - 1 || idx === -1) {
+                        e.preventDefault();
+                        nodes[0].focus();
+                    }
+                }
+            });
+        }
+
+        // Add click event to gallery items
+        function addGalleryClickEvents() {
+            document.querySelectorAll('.gallery-item img').forEach(img => {
+                img.addEventListener('click', function() {
+                    if (this.src) {
+                        openModal(this.src);
+                    }
+                });
+            });
+        }
+
+        // Add click events after loading gallery images
+        addGalleryClickEvents();
+
+        modalBackBtn?.addEventListener('click', closeModal);
+
+        modalOverlay?.addEventListener('click', function (e) {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        const originalLoadGalleryImages = loadGalleryImages;
+        loadGalleryImages = function(page = 1, append = false) {
+            const p = originalLoadGalleryImages(page, append);
+            if (p && typeof p.then === 'function') {
+                p.then(() => setTimeout(addGalleryClickEvents, 50));
+            }
+            return p;
+        };
+
+        function saveLikeState(imageNumber, liked, disliked) {
+            const key = `meme_${imageNumber}_state`;
+            localStorage.setItem(key, JSON.stringify({ liked, disliked }));
+        }
+
+        function handleLike(button, imageNumber) {
+            const likeCount = button.querySelector('.like-count');
+            const dislikeBtn = button.parentElement.querySelector('.dislike-btn');
+            // Remove active state from dislike button
+            if (dislikeBtn.classList.contains('active')) {
+                dislikeBtn.classList.remove('active', 'clicked');
+                const dislikeCount = dislikeBtn.querySelector('.dislike-count');
+                dislikeCount.textContent = parseInt(dislikeCount.textContent) - 1;
+            }
+            button.classList.toggle('active');
+            // Update count with animation
+            const count = parseInt(likeCount.textContent);
+            if (button.classList.contains('active')) {
+                likeCount.textContent = count + 1;
+            } else {
+                likeCount.textContent = count - 1;
+            }
+            likeCount.classList.remove('count-animate');
+            void likeCount.offsetWidth;
+            likeCount.classList.add('count-animate');
+            saveLikeState(imageNumber, button.classList.contains('active'), false);
+        }
+        function handleDislike(button, imageNumber) {
+            const dislikeCount = button.querySelector('.dislike-count');
+            const likeBtn = button.parentElement.querySelector('.like-btn');
+            // Remove active state from like button
+            if (likeBtn.classList.contains('active')) {
+                likeBtn.classList.remove('active', 'clicked');
+                const likeCount = likeBtn.querySelector('.like-count');
+                likeCount.textContent = parseInt(likeCount.textContent) - 1;
+            }
+            button.classList.toggle('active');
+            // Update count with animation
+            const count = parseInt(dislikeCount.textContent);
+            if (button.classList.contains('active')) {
+                dislikeCount.textContent = count + 1;
+            } else {
+                dislikeCount.textContent = count - 1;
+            }
+            dislikeCount.classList.remove('count-animate');
+            void dislikeCount.offsetWidth;
+            dislikeCount.classList.add('count-animate');
+            saveLikeState(imageNumber, false, button.classList.contains('active'));
+        }
+        // Update loadLikeStates to use new classes
+        function loadLikeStates() {
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                const imgEl = item.querySelector('img');
+                if (!imgEl || !imgEl.alt) return;
+                const m = imgEl.alt.match(/\d+/);
+                if (!m) return;
+                const imageNumber = m[0];
+                const key = `meme_${imageNumber}_state`;
+                const state = JSON.parse(localStorage.getItem(key) || '{"liked":false,"disliked":false}');
+                const likeBtn = item.querySelector('.like-btn');
+                const dislikeBtn = item.querySelector('.dislike-btn');
+                if (state.liked && likeBtn) {
+                    likeBtn.classList.add('active');
+                    const lc = likeBtn.querySelector('.like-count');
+                    if (lc) lc.textContent = '1';
+                }
+                if (state.disliked && dislikeBtn) {
+                    dislikeBtn.classList.add('active');
+                    const dc = dislikeBtn.querySelector('.dislike-count');
+                    if (dc) dc.textContent = '1';
+                }
+            });
+        }
+
+        // Download button logic
+        function downloadMeme(btn) {
+            const galleryItem = btn.closest('.gallery-item');
+            const img = galleryItem.querySelector('img');
+            const imageUrl = img.src || img.getAttribute('data-src');
+            const imageName = img.alt.replace(/\s+/g, '_') + '.jpg';
+            fetch(imageUrl)
+                .then(resp => resp.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = imageName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+                })
+                .catch(() => alert('Failed to download image.'));
+        }
+    </script>
+</body>
+</html> 

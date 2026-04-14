@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up · MEME MIND AI</title>
+    <style>
+        :root {
+            --primary: #E85D04;
+            --primary-dark: #c44e04;
+            --surface: #141416;
+            --panel: #1c1c1f;
+            --border: #2e2e32;
+            --text: #fafafa;
+            --muted: #a1a1aa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: var(--surface);
+            display: flex;
+            align-items: stretch;
+            justify-content: stretch;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .container {
+            display: flex;
+            width: 100vw;
+            min-height: 100vh;
+        }
+
+        .left-panel {
+            flex: 1.1;
+            background: radial-gradient(circle at 65% 15%, #ff9a56 0%, var(--primary) 42%, #7a2e00 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-top-left-radius: 28px;
+            border-bottom-left-radius: 28px;
+            box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .left-panel .logo {
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 28px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .left-panel .get-started {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: center;
+            padding: 0 16px;
+        }
+
+        .left-panel .desc {
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 1.05rem;
+            margin-bottom: 36px;
+            text-align: center;
+            max-width: 320px;
+            line-height: 1.5;
+        }
+
+        .stepper {
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.18);
+            border-radius: 10px;
+            padding: 12px 18px;
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.98rem;
+            opacity: 0.85;
+        }
+
+        .step.active {
+            background: #fff;
+            color: var(--primary-dark);
+            opacity: 1;
+            font-weight: 700;
+        }
+
+        .step .step-num {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-align: center;
+            line-height: 26px;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        .step.active .step-num {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .right-panel {
+            flex: 1.2;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top-right-radius: 28px;
+            border-bottom-right-radius: 28px;
+        }
+
+        .form-box {
+            background: var(--panel);
+            border-radius: 18px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border);
+            padding: 48px 40px 32px 40px;
+            min-width: 350px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-title {
+            color: var(--text);
+            font-size: 1.55rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .form-desc {
+            color: var(--muted);
+            font-size: 0.98rem;
+            margin-bottom: 26px;
+            line-height: 1.45;
+        }
+
+        .social-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .social-btn {
+            flex: 1;
+            background: #26262b;
+            color: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .social-btn:hover {
+            background: #303036;
+            border-color: #3f3f46;
+        }
+
+        .or-divider {
+            text-align: center;
+            color: var(--muted);
+            margin: 16px 0;
+            font-size: 0.92rem;
+            position: relative;
+        }
+
+        .or-divider:before,
+        .or-divider:after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 1px;
+            background: var(--border);
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 0;
+        }
+
+        .form-row input {
+            flex: 1;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #232328;
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px rgba(232, 93, 4, 0.35);
+        }
+
+        .form-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #ff8c42 0%, var(--primary) 55%, var(--primary-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-top: 8px;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.15s;
+        }
+
+        .form-btn:hover {
+            filter: brightness(1.06);
+        }
+
+        .form-btn:active {
+            transform: translateY(1px);
+        }
+
+        .form-note {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+
+        .form-footer {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .form-footer a {
+            color: #ffb38a;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .form-footer a:hover {
+            color: #ffd0b8;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+            .left-panel,
+            .right-panel {
+                border-radius: 0;
+                min-height: 280px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-box {
+                padding: 28px 18px 22px 18px;
+                min-width: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo">MEME MIND AI</div>
+            <div class="get-started">Get started</div>
+            <div class="desc">Create an account to save memes and sync preferences across devices.</div>
+            <div class="stepper">
+                <div class="step active"><span class="step-num">1</span>Sign up your account</div>
+                <div class="step"><span class="step-num">2</span>Set up your workspace</div>
+                <div class="step"><span class="step-num">3</span>Set up your profile</div>
+            </div>
+        </div>
+        <div class="right-panel">
+            <form class="form-box" id="signupForm" method="post" action="/login">
+                <div class="form-title">Create your account</div>
+                <div class="form-desc">Enter your details to join MEME MIND AI.</div>
+                <div class="social-row">
+                    <button type="button" class="social-btn"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="" width="20" height="20"> Google</button>
+                    <button type="button" class="social-btn"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="" width="20" height="20"> GitHub</button>
+                </div>
+                <div class="or-divider">or continue with email</div>
+                <div class="form-row">
+                    <input class="form-input" type="text" name="first_name" placeholder="First name" required autocomplete="given-name">
+                    <input class="form-input" type="text" name="last_name" placeholder="Last name" required autocomplete="family-name">
+                </div>
+                <input class="form-input" type="email" name="email" placeholder="Email" required autocomplete="email">
+                <input class="form-input" type="password" name="password" placeholder="Password" minlength="8" required autocomplete="new-password">
+                <div class="form-note">At least 8 characters.</div>
+                <button class="form-btn" type="submit">Sign up</button>
+                <div class="form-footer">Already have an account? <a href="/">Back to home</a></div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
