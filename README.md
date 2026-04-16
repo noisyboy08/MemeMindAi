@@ -1,4 +1,4 @@
-# MEME MIND AI — Interface
+# MEME MIND AI 
 
 Full-stack meme studio: a **FastAPI** backend serves static marketing pages and JSON APIs, while **vanilla HTML/CSS/JavaScript** frontends call those APIs on the same origin. Caption text is produced with **Google Gemini**; rendered meme images are composed with **Pillow** and written to disk.
 
